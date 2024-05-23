@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Push-ups",
+    "description": "Strengthens chest, shoulders, and triceps",
+    "animation": "https://example.com/pushups.gif",
+    "muscleGroup": "chest",
+    "baseDamage": 10,
+    "critRate": 12,
+    "amount": "15-20"
+  },
+  {
+    "name": "Bench Dips",
+    "description": "Targets triceps and chest",
+    "animation": "https://example.com/benchdips.gif",
+    "muscleGroup": "chest",
+    "baseDamage": 10,
+    "critRate": 12,
+    "amount": "12-15"
+  },
+  {
+    "name": "Diamond Push-ups",
+    "description": "Focuses on triceps and inner chest",
+    "animation": "https://example.com/diamondpushups.gif",
+    "muscleGroup": "chest",
+    "baseDamage": 11,
+    "critRate": 13,
+    "amount": "10-12"
+  },
+  {
+    "name": "Plyometric Push-ups",
+    "description": "Explosive push-up variation for power",
+    "animation": "https://example.com/plyometricpushups.gif",
+    "muscleGroup": "chest",
+    "baseDamage": 12,
+    "critRate": 14,
+    "amount": "8-10"
+  },
+  {
+    "name": "Bodyweight Squats",
+    "description": "Strengthens legs and core",
+    "animation": "https://example.com/bodyweightsquats.gif",
+    "muscleGroup": "legs",
+    "baseDamage": 10,
+    "critRate": 12,
+    "amount": "20-25"
+  },
+  {
+    "name": "Lunges",
+    "description": "Strengthens legs and improves balance",
+    "animation": "https://example.com/lunges.gif",
+    "muscleGroup": "legs",
+    "baseDamage": 12,
+    "critRate": 13,
+    "amount": "12-15 per leg"
+  },
+  {
+    "name": "Mountain Climbers",
+    "description": "Cardiovascular and lower body workout",
+    "animation": "https://example.com/mountainclimbers.gif",
+    "muscleGroup": "legs",
+    "baseDamage": 11,
+    "critRate": 12,
+    "amount": "20-30"
+  },
+  {
+    "name": "Jump Squats",
+    "description": "Explosive squat variation for power",
+    "animation": "https://example.com/jumpsquats.gif",
+    "muscleGroup": "legs",
+    "baseDamage": 12,
+    "critRate": 14,
+    "amount": "10-12"
+  },
+  {
+    "name": "Superman",
+    "description": "Strengthens lower back and core",
+    "animation": "https://example.com/superman.gif",
+    "muscleGroup": "back",
+    "baseDamage": 10,
+    "critRate": 12,
+    "amount": "15-20"
+  },
+  {
+    "name": "Bird Dog",
+    "description": "Improves stability and strengthens back muscles",
+    "animation": "https://example.com/birddog.gif",
+    "muscleGroup": "back",
+    "baseDamage": 10,
+    "critRate": 12,
+    "amount": "10-12 per side"
+  },
+  {
+    "name": "Plank",
+    "description": "Core stabilization exercise",
+    "animation": "https://example.com/plank.gif",
+    "muscleGroup": "back",
+    "baseDamage": 11,
+    "critRate": 13,
+    "amount": "30-60 seconds"
+  },
+  {
+    "name": "Reverse Snow Angels",
+    "description": "Targets upper back and shoulder muscles",
+    "animation": "https://example.com/reversesnowangels.gif",
+    "muscleGroup": "back",
+    "baseDamage": 12,
+    "critRate": 14,
+    "amount": "12-15"
+  }
+]
