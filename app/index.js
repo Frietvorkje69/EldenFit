@@ -3,7 +3,8 @@ import { Text, View, Image, TouchableOpacity, StyleSheet, Animated, Easing } fro
 import { Audio } from "expo-av";
 import * as Haptics from "expo-haptics";
 import { useNavigation } from "expo-router";
-import { Ionicons } from "@expo/vector-icons"; // Import Ionicons for icons
+import { Ionicons } from "@expo/vector-icons";
+let logo = logo;
 
 export default function Index() {
     const rotateAnim = useRef(new Animated.Value(0)).current;
@@ -51,9 +52,8 @@ export default function Index() {
         outputRange: ["-5deg", "5deg"],
     });
 
-    const handleButtonPress = async (screenName: string) => {
+    const handleButtonPress = async (screenName) => {
         await Haptics.selectionAsync();
-        // @ts-ignore
         navigation.navigate(screenName);
     };
 
@@ -103,17 +103,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 10,
         width: 200,
-        flexDirection: "row", // Change to row for icon and text
-        alignItems: "center", // Keep alignItems for centering text vertically
+        flexDirection: "row",
+        alignItems: "center",
         borderWidth: 1,
         borderColor: "white",
     },
     buttonText: {
         color: "white",
         fontSize: 16,
-        flex: 1, // Make text flexible to fill remaining space
+        flex: 1,
         marginLeft: 10,
-    }, icon: {
-        marginRight: 10, // Add margin to the right of the icon
+    },
+    icon: {
+        marginRight: 10,
     }
 });

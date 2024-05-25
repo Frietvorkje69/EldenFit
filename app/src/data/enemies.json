@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Green Slime",
+    "image": "https://i.imgur.com/iCz4SQR.png",
+    "health": 30,
+    "critRate": 0.05,
+    "biome": "https://i.imgur.com/2OUTPY2.png"
+  },
+  {
+    "name": "Cave Bat",
+    "image": "https://i.imgur.com/3LKVusd.png",
+    "health": 20,
+    "critRate": 0.15,
+    "biome": "https://i.imgur.com/G9rjQtE.png"
+  },
+  {
+    "name": "Forest Wolf",
+    "image": "https://i.imgur.com/YMQBECv.png",
+    "health": 50,
+    "critRate": 0.10,
+    "biome": "https://i.imgur.com/ieb2L4S.png"
+  },
+  {
+    "name": "Giant Rat",
+    "image": "https://i.imgur.com/VtXQd6w.png",
+    "health": 25,
+    "critRate": 0.12,
+    "biome": "https://i.imgur.com/QhpULBz.png"
+  },
+  {
+    "name": "Skeleton Warrior",
+    "image": "https://i.imgur.com/MAosBxc.png",
+    "health": 40,
+    "critRate": 0.08,
+    "biome": "https://i.imgur.com/2AShJuQ.png"
+  }
+]
