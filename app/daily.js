@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Modal from 'react-native-modal';
 import HealthBar from './healthBar';
 import exercises from './src/data/exercises.json';
 import enemies from './src/data/enemies.json';
@@ -9,6 +10,11 @@ const Daily = () => {
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [muscleGroup, setMuscleGroup] = useState('');
     const [enemy, setEnemy] = useState(null);
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [currentExercise, setCurrentExercise] = useState(null);
+    const [enemyHealth, setEnemyHealth] = useState(0);
+    const [enemyMaxHealth, setEnemyMaxHealth] = useState(0)
+    let enemyHP;
 
     useEffect(() => {
         const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
@@ -22,7 +28,10 @@ const Daily = () => {
         setSelectedExercises(selectedExercises);
 
         const randomEnemy = chooseRandomItem(enemies);
+        enemyHP = randomEnemy.health
         setEnemy(randomEnemy);
+        setEnemyHealth(enemyHP);
+        setEnemyMaxHealth(randomEnemy.health);
 
     }, []);
 
@@ -45,17 +54,26 @@ const Daily = () => {
         return stars;
     };
 
+    const handleExercisePress = (exercise) => {
+        setCurrentExercise(exercise);
+        setModalVisible(true);
+    };
+
+    const handleDonePress = () => {
+        setEnemyHealth(prevHealth => Math.max(prevHealth - currentExercise.baseDamage, 0));
+        setModalVisible(false);
+    };
+
     const windowWidth = Dimensions.get('window').width;
 
     return (
-
         <View style={styles.container}>
             {enemy !== null && enemy !== undefined && (
                 <ImageBackground
                     source={{ uri: `${enemy.biome}` }}
                     style={styles.enemyContainer}
                 >
-                    <HealthBar health={enemy.health} maxHealth={enemy.maxHealth} />
+                    <HealthBar health={enemyHealth} maxHealth={enemyMaxHealth} />
                     <Image
                         source={{ uri: `${enemy.image}` }}
                         style={styles.enemyImage}
@@ -67,7 +85,7 @@ const Daily = () => {
                 {selectedExercises.map((exercise, index) => (
                     <View style={[styles.buttonContainer, { width: '50%' }]} key={index}>
                         <TouchableOpacity
-                            onPress={() => alert(exercise.description)}
+                            onPress={() => handleExercisePress(exercise)}
                             style={styles.button}
                         >
                             <View style={styles.starsContainer}>
@@ -78,6 +96,20 @@ const Daily = () => {
                     </View>
                 ))}
             </View>
+            <Modal isVisible={isModalVisible} onBackdropPress={() => setModalVisible(false)}>
+                <View style={styles.modalContent}>
+                    {currentExercise && (
+                        <>
+                            <Text style={styles.modalTitle}>{currentExercise.name}</Text>
+                            <Text style={styles.modalSubtitle}>Reps: {currentExercise.amount}</Text>
+                            <Image source={{ uri: currentExercise.image }} style={styles.modalImage} />
+                            <TouchableOpacity onPress={handleDonePress} style={styles.doneButton}>
+                                <Text style={styles.doneButtonText}>Done</Text>
+                            </TouchableOpacity>
+                        </>
+                    )}
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -143,6 +175,38 @@ const styles = StyleSheet.create({
         height: '75%',
         resizeMode: 'contain',
     },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    modalSubtitle: {
+        fontSize: 16,
+        marginBottom: 20,
+    },
+    modalImage: {
+        width: 200,
+        height: 200,
+        resizeMode: 'contain',
+        marginBottom: 20,
+    },
+    doneButton: {
+        backgroundColor: 'green',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+    },
+    doneButtonText: {
+        color: 'white',
+        fontSize: 16,
+    },
 });
 
 export default Daily;
+

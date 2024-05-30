@@ -6,7 +6,7 @@
     "muscleGroup": "chest",
     "baseDamage": 10,
     "critRate": 12,
-    "amount": "15-20",
+    "amount": 20,
     "difficulty": 1
   },
   {
@@ -16,7 +16,7 @@
     "muscleGroup": "chest",
     "baseDamage": 10,
     "critRate": 12,
-    "amount": "12-15",
+    "amount": 15,
     "difficulty": 1
   },
   {
@@ -26,7 +26,7 @@
     "muscleGroup": "chest",
     "baseDamage": 11,
     "critRate": 13,
-    "amount": "10-12",
+    "amount": 12,
     "difficulty": 2
   },
   {
@@ -36,7 +36,7 @@
     "muscleGroup": "chest",
     "baseDamage": 12,
     "critRate": 14,
-    "amount": "8-10",
+    "amount": 10,
     "difficulty": 3
   },
   {
@@ -46,7 +46,7 @@
     "muscleGroup": "legs",
     "baseDamage": 10,
     "critRate": 12,
-    "amount": "20-25",
+    "amount": 25,
     "difficulty": 1
   },
   {
@@ -56,7 +56,7 @@
     "muscleGroup": "legs",
     "baseDamage": 12,
     "critRate": 13,
-    "amount": "12-15 per leg",
+    "amount": "15 per leg",
     "difficulty": 2
   },
   {
@@ -66,7 +66,7 @@
     "muscleGroup": "legs",
     "baseDamage": 11,
     "critRate": 12,
-    "amount": "20-30",
+    "amount": 30,
     "difficulty": 2
   },
   {
@@ -76,7 +76,7 @@
     "muscleGroup": "legs",
     "baseDamage": 12,
     "critRate": 14,
-    "amount": "10-12",
+    "amount": 12,
     "difficulty": 3
   },
   {
@@ -86,7 +86,7 @@
     "muscleGroup": "back",
     "baseDamage": 10,
     "critRate": 12,
-    "amount": "15-20",
+    "amount": 20,
     "difficulty": 1
   },
   {
@@ -96,7 +96,7 @@
     "muscleGroup": "back",
     "baseDamage": 10,
     "critRate": 12,
-    "amount": "10-12 per side",
+    "amount": "12 per side",
     "difficulty": 1
   },
   {
@@ -106,7 +106,7 @@
     "muscleGroup": "back",
     "baseDamage": 11,
     "critRate": 13,
-    "amount": "30-60 seconds",
+    "amount": "60 seconds",
     "difficulty": 2
   },
   {
@@ -116,7 +116,7 @@
     "muscleGroup": "back",
     "baseDamage": 12,
     "critRate": 14,
-    "amount": "12-15",
+    "amount": 15,
     "difficulty": 2
   }
 ]
