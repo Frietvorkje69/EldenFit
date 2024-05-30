@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Modal from 'react-native-modal';
+import { Audio } from 'expo-av';
+import * as Haptics from "expo-haptics";
 import HealthBar from './healthBar';
 import exercises from './src/data/exercises.json';
 import enemies from './src/data/enemies.json';
@@ -13,8 +15,9 @@ const Daily = () => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [currentExercise, setCurrentExercise] = useState(null);
     const [enemyHealth, setEnemyHealth] = useState(0);
-    const [enemyMaxHealth, setEnemyMaxHealth] = useState(0)
-    let enemyHP;
+    const [enemyMaxHealth, setEnemyMaxHealth] = useState(0);
+    const [sound, setSound] = useState(null);
+    const [damageText, setDamageText] = useState('');
 
     useEffect(() => {
         const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
@@ -28,12 +31,35 @@ const Daily = () => {
         setSelectedExercises(selectedExercises);
 
         const randomEnemy = chooseRandomItem(enemies);
-        enemyHP = randomEnemy.health
+        const enemyHP = randomEnemy.health;
         setEnemy(randomEnemy);
         setEnemyHealth(enemyHP);
-        setEnemyMaxHealth(randomEnemy.health);
+        setEnemyMaxHealth(enemyHP);
 
+        const loadSound = async () => {
+            const { sound } = await Audio.Sound.createAsync(
+                require('../assets/sfx/hit.wav')
+            );
+            setSound(sound);
+        };
+
+        loadSound();
+
+        return () => {
+            if (sound) {
+                sound.unloadAsync();
+            }
+        };
     }, []);
+
+    useEffect(() => {
+        if (damageText) {
+            const timer = setTimeout(() => {
+                setDamageText('');
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [damageText]);
 
     const chooseRandomItem = (arr) => {
         return arr[Math.floor(Math.random() * arr.length)];
@@ -57,11 +83,19 @@ const Daily = () => {
     const handleExercisePress = (exercise) => {
         setCurrentExercise(exercise);
         setModalVisible(true);
+        Haptics.selectionAsync();
     };
 
-    const handleDonePress = () => {
-        setEnemyHealth(prevHealth => Math.max(prevHealth - currentExercise.baseDamage, 0));
+    const handleDonePress = async () => {
+        const damageDealt = currentExercise.baseDamage;
+        setEnemyHealth(prevHealth => Math.max(prevHealth - damageDealt, 0));
+        setDamageText(`-${damageDealt}!`);
         setModalVisible(false);
+        Haptics.selectionAsync();
+        if (sound) {
+            await sound.setPositionAsync(0);
+            await sound.playAsync();
+        }
     };
 
     const windowWidth = Dimensions.get('window').width;
@@ -78,6 +112,7 @@ const Daily = () => {
                         source={{ uri: `${enemy.image}` }}
                         style={styles.enemyImage}
                     />
+                    {damageText ? <Text style={styles.damageText}>{damageText}</Text> : null}
                 </ImageBackground>
             )}
             <Text style={styles.heading}>It's {muscleGroup} Day!</Text>
@@ -102,7 +137,7 @@ const Daily = () => {
                         <>
                             <Text style={styles.modalTitle}>{currentExercise.name}</Text>
                             <Text style={styles.modalSubtitle}>Reps: {currentExercise.amount}</Text>
-                            <Image source={{ uri: currentExercise.image }} style={styles.modalImage} />
+                            <Image source={{ uri: currentExercise.animation }} style={styles.modalImage} />
                             <TouchableOpacity onPress={handleDonePress} style={styles.doneButton}>
                                 <Text style={styles.doneButtonText}>Done</Text>
                             </TouchableOpacity>
@@ -205,6 +240,20 @@ const styles = StyleSheet.create({
     doneButtonText: {
         color: 'white',
         fontSize: 16,
+    },
+    damageText: {
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        color: 'red',
+        fontSize: 20,
+        fontWeight: 'bold',
+        borderWidth: 2,
+        borderColor: 'white',
+        borderRadius: 10,
+        backgroundColor: 'white',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
     },
 });
 
