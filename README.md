@@ -2,6 +2,9 @@
 
 Elden Fit is a unique mobile fitness application designed to make workouts engaging by incorporating RPG elements. Track your fitness journey, level up, and embark on quests—all while getting fit! This project is a third-year school project developed by a single student.
 
+
+[![Watch the video](assets/images/youtube.png)](https://youtu.be/3qFRCVwvi8Y)
+
 ## Table of Contents
 - [Features](#features)
 - [Screenshots](#screenshots)
@@ -11,17 +14,13 @@ Elden Fit is a unique mobile fitness application designed to make workouts engag
 - [Contributing](#contributing)
 
 ## Features
-- **Character Creation**: Customize your avatar and start your fitness adventure.
 - **Quests and Challenges**: Complete fitness challenges to gain experience points and level up.
 - **Progress Tracking**: Monitor your workouts, set goals, and track your progress over time.
 - **Rewards System**: Earn rewards and unlock new gear as you progress.
-- **Community Integration**: Connect with friends, join teams, and compete in leaderboards.
 - **Interactive Maps**: Explore different in-game regions by completing real-life exercises.
 
 ## Screenshots
-![Screenshot 1](path_to_screenshot1)  
-![Screenshot 2](path_to_screenshot2)
-![Screenshot 3](path_to_screenshot3)
+![Screenshot 1](assets/images/mockup.png)
 
 ## Installation
 To get started with Elden Fit, follow these steps:
@@ -44,16 +43,15 @@ To get started with Elden Fit, follow these steps:
     ```
 
 ## Usage
-1. **Create your character**: Customize your avatar to start your fitness journey.
-2. **Embark on quests**: Complete daily and custom fitness challenges.
-3. **Earn rewards**: Level up and unlock new equipment and abilities.
+1. **Embark on quests**: Complete daily and custom fitness challenges.
+2. **Earn rewards**: Level up and unlock new equipment and abilities.
 
 ## Roadmap
 Future improvements and features planned for Elden Fit include:
 - More diverse quests and challenges.
 - Integration with wearable fitness devices.
 - Add analytics and insights.
-- Additional customization options for avatars.
+- Customization options for avatars.
 
 ## Contributing
 Contributions are welcome! If you have suggestions for new features or improvements, please open an issue or submit a pull request. Follow these steps to contribute:
