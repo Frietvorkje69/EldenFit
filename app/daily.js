@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, Image } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, Image, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Modal from 'react-native-modal';
 import { Audio } from 'expo-av';
 import * as Haptics from "expo-haptics";
+import { useFocusEffect } from '@react-navigation/native';
 import HealthBar from './healthBar';
 import exercises from './src/data/exercises.json';
 import enemies from './src/data/enemies.json';
@@ -16,8 +17,39 @@ const Daily = () => {
     const [currentExercise, setCurrentExercise] = useState(null);
     const [enemyHealth, setEnemyHealth] = useState(0);
     const [enemyMaxHealth, setEnemyMaxHealth] = useState(0);
-    const [sound, setSound] = useState(null);
     const [damageText, setDamageText] = useState('');
+    const [shakeAnimation] = useState(new Animated.Value(0));
+    const buttonSelectSound = useRef(new Audio.Sound());
+    const battleMusic = useRef(new Audio.Sound());
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const playMusic = async () => {
+                try {
+                    await battleMusic.current.loadAsync(require("../assets/music/battle.mp3"));
+                    await battleMusic.current.playAsync();
+                    await battleMusic.current.setIsLoopingAsync(true);
+                } catch (error) {
+                    console.error("Failed to load the battle music", error);
+                }
+            };
+
+            const stopMusic = async () => {
+                try {
+                    await battleMusic.current.stopAsync();
+                    await battleMusic.current.unloadAsync();
+                } catch (error) {
+                    console.error("Failed to stop the battle music", error);
+                }
+            };
+
+            playMusic();
+
+            return () => {
+                stopMusic();
+            };
+        }, [])
+    );
 
     useEffect(() => {
         const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
@@ -35,6 +67,19 @@ const Daily = () => {
         setEnemy(randomEnemy);
         setEnemyHealth(enemyHP);
         setEnemyMaxHealth(enemyHP);
+
+        const loadButtonSelectSound = async () => {
+            try {
+                await buttonSelectSound.current.loadAsync(require("../assets/sfx/buttonSelect.wav"));
+            } catch (error) {
+                console.error("Failed to load the button select sound", error);
+            }
+        };
+        loadButtonSelectSound();
+
+        return () => {
+            buttonSelectSound.current.unloadAsync();
+        };
     }, []);
 
     useEffect(() => {
@@ -65,7 +110,12 @@ const Daily = () => {
         return stars;
     };
 
-    const handleExercisePress = (exercise) => {1
+    const handleExercisePress = async (exercise) => {
+        try {
+            await buttonSelectSound.current.replayAsync();
+        } catch (error) {
+            console.error("Failed to play the button select sound", error);
+        }
         setCurrentExercise(exercise);
         setModalVisible(true);
         Haptics.selectionAsync();
@@ -77,15 +127,20 @@ const Daily = () => {
         const criticalChance = Math.random() < 0.05;
         const totalDamage = baseDamage + additionalDamage + (criticalChance ? baseDamage : 0);
 
-        if (criticalChance) {
-            console.log('Critical Hit!');
-        }
-        console.log('Additional Damage:', additionalDamage);
-
         setEnemyHealth(prevHealth => Math.max(prevHealth - totalDamage, 0));
         setDamageText(`-${totalDamage}${criticalChance ? '!!' : '!'}`);
         setModalVisible(false);
         Haptics.selectionAsync();
+
+        const intensity = criticalChance ? 20 : 10;
+        const duration = criticalChance ? 150 : 100;
+
+        Animated.sequence([
+            Animated.timing(shakeAnimation, { toValue: intensity, duration, useNativeDriver: true }),
+            Animated.timing(shakeAnimation, { toValue: -intensity, duration, useNativeDriver: true }),
+            Animated.timing(shakeAnimation, { toValue: intensity, duration, useNativeDriver: true }),
+            Animated.timing(shakeAnimation, { toValue: 0, duration, useNativeDriver: true })
+        ]).start();
 
         const soundFile = criticalChance ? require('../assets/sfx/criticalHit.wav') : require('../assets/sfx/hit.wav');
 
@@ -105,9 +160,9 @@ const Daily = () => {
                     style={styles.enemyContainer}
                 >
                     <HealthBar health={enemyHealth} maxHealth={enemyMaxHealth} />
-                    <Image
+                    <Animated.Image
                         source={{ uri: `${enemy.image}` }}
-                        style={styles.enemyImage}
+                        style={[styles.enemyImage, { transform: [{ translateX: shakeAnimation }] }]}
                     />
                     {damageText ? <Text style={[styles.damageText, damageText.includes('!!') ? { color: 'orange' } : null]}>{damageText}</Text> : null}
                 </ImageBackground>

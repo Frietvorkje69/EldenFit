@@ -1,27 +1,35 @@
 import React, { useEffect, useRef } from "react";
-import { Text, View, Image, TouchableOpacity, StyleSheet, Animated, Easing } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Animated, Easing } from "react-native";
 import { Audio } from "expo-av";
 import * as Haptics from "expo-haptics";
-import { useNavigation } from "expo-router";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-let logo = logo;
 
 export default function Index() {
     const rotateAnim = useRef(new Animated.Value(0)).current;
     const soundObject = useRef(new Audio.Sound());
+    const logoHitSound = useRef(new Audio.Sound());
+    const buttonSelectSound = useRef(new Audio.Sound());
     const navigation = useNavigation();
 
     useEffect(() => {
-        const playMusic = async () => {
+        const loadLogoHitSound = async () => {
             try {
-                await soundObject.current.loadAsync(require("../assets/music/main.mp3"));
-                await soundObject.current.playAsync();
-                await soundObject.current.setIsLoopingAsync(true);
+                await logoHitSound.current.loadAsync(require("../assets/sfx/logoHit.wav"));
             } catch (error) {
-                console.error("Failed to load the sound", error);
+                console.error("Failed to load the logo hit sound", error);
             }
         };
-        playMusic();
+        loadLogoHitSound();
+
+        const loadButtonSelectSound = async () => {
+            try {
+                await buttonSelectSound.current.loadAsync(require("../assets/sfx/buttonSelect.wav"));
+            } catch (error) {
+                console.error("Failed to load the button select sound", error);
+            }
+        };
+        loadButtonSelectSound();
 
         const animation = Animated.loop(
             Animated.sequence([
@@ -42,10 +50,40 @@ export default function Index() {
         animation.start();
 
         return () => {
-            soundObject.current.unloadAsync();
+            logoHitSound.current.unloadAsync();
+            buttonSelectSound.current.unloadAsync();
             animation.stop();
         };
     }, [rotateAnim]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const playMusic = async () => {
+                try {
+                    await soundObject.current.loadAsync(require("../assets/music/main.mp3"));
+                    await soundObject.current.playAsync();
+                    await soundObject.current.setIsLoopingAsync(true);
+                } catch (error) {
+                    console.error("Failed to load the sound", error);
+                }
+            };
+
+            const stopMusic = async () => {
+                try {
+                    await soundObject.current.stopAsync();
+                    await soundObject.current.unloadAsync();
+                } catch (error) {
+                    console.error("Failed to stop the sound", error);
+                }
+            };
+
+            playMusic();
+
+            return () => {
+                stopMusic();
+            };
+        }, [])
+    );
 
     const rotateInterpolate = rotateAnim.interpolate({
         inputRange: [0, 1],
@@ -53,17 +91,32 @@ export default function Index() {
     });
 
     const handleButtonPress = async (screenName) => {
-        await Haptics.selectionAsync();
-        navigation.navigate(screenName);
+        try {
+            await buttonSelectSound.current.replayAsync();
+            await Haptics.selectionAsync();
+            navigation.navigate(screenName);
+        } catch (error) {
+            console.error("Failed to play the button select sound", error);
+        }
+    };
+
+    const handleLogoPress = async () => {
+        try {
+            await logoHitSound.current.replayAsync();
+        } catch (error) {
+            console.error("Failed to play the logo hit sound", error);
+        }
     };
 
     return (
         <View style={styles.container}>
-            <Animated.Image
-                source={require("../assets/images/logo.png")}
-                style={[styles.logo, { transform: [{ rotate: rotateInterpolate }] }]}
-                resizeMode="contain"
-            />
+            <TouchableOpacity onPress={handleLogoPress}>
+                <Animated.Image
+                    source={require("../assets/images/logo.png")}
+                    style={[styles.logo, { transform: [{ rotate: rotateInterpolate }] }]}
+                    resizeMode="contain"
+                />
+            </TouchableOpacity>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={() => handleButtonPress("daily")}>
                     <Ionicons name="calendar-outline" size={24} color="white" style={styles.icon} />
@@ -116,5 +169,5 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 10,
-    }
+    },
 });
