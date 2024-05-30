@@ -2,36 +2,75 @@
   {
     "name": "Green Slime",
     "image": "https://i.imgur.com/iCz4SQR.png",
-    "health": 30,
+    "health": 100,
     "critRate": 0.05,
     "biome": "https://i.imgur.com/2OUTPY2.png"
   },
   {
     "name": "Cave Bat",
     "image": "https://i.imgur.com/3LKVusd.png",
-    "health": 20,
+    "health": 110,
     "critRate": 0.15,
     "biome": "https://i.imgur.com/G9rjQtE.png"
   },
   {
     "name": "Forest Wolf",
     "image": "https://i.imgur.com/YMQBECv.png",
-    "health": 50,
+    "health": 120,
     "critRate": 0.10,
     "biome": "https://i.imgur.com/ieb2L4S.png"
   },
   {
     "name": "Giant Rat",
     "image": "https://i.imgur.com/VtXQd6w.png",
-    "health": 25,
+    "health": 125,
     "critRate": 0.12,
     "biome": "https://i.imgur.com/QhpULBz.png"
   },
   {
     "name": "Skeleton Warrior",
     "image": "https://i.imgur.com/MAosBxc.png",
-    "health": 40,
+    "health": 130,
     "critRate": 0.08,
     "biome": "https://i.imgur.com/2AShJuQ.png"
+  },
+
+
+
+
+  {
+    "name": "Baby Dragon",
+    "image": "https://i.imgur.com/Kg52R4H.png",
+    "health": 230,
+    "critRate": 0.08,
+    "biome": "https://i.imgur.com/2AShJuQ.png"
+  },
+  {
+    "name": "Living Armour",
+    "image": "https://i.imgur.com/BQFX6p7.png",
+    "health": 170,
+    "critRate": 0.08,
+    "biome": "https://i.imgur.com/2AShJuQ.png"
+  },
+  {
+    "name": "Forest Goblin",
+    "image": "https://i.imgur.com/5BFk1AO.png",
+    "health": 130,
+    "critRate": 0.08,
+    "biome": "https://i.imgur.com/ieb2L4S.png"
+  },
+  {
+    "name": "Walking Mushroom",
+    "image": "https://i.imgur.com/RThIQ7D.png",
+    "health": 100,
+    "critRate": 0.08,
+    "biome": "https://i.imgur.com/X1Dk87S.png"
+  },
+  {
+    "name": "Arch Wizard",
+    "image": "https://i.imgur.com/jwO8TZi.png",
+    "health": 200,
+    "critRate": 0.08,
+    "biome": "https://i.imgur.com/G9rjQtE.png"
   }
 ]

@@ -35,21 +35,6 @@ const Daily = () => {
         setEnemy(randomEnemy);
         setEnemyHealth(enemyHP);
         setEnemyMaxHealth(enemyHP);
-
-        const loadSound = async () => {
-            const { sound } = await Audio.Sound.createAsync(
-                require('../assets/sfx/hit.wav')
-            );
-            setSound(sound);
-        };
-
-        loadSound();
-
-        return () => {
-            if (sound) {
-                sound.unloadAsync();
-            }
-        };
     }, []);
 
     useEffect(() => {
@@ -80,20 +65,32 @@ const Daily = () => {
         return stars;
     };
 
-    const handleExercisePress = (exercise) => {
+    const handleExercisePress = (exercise) => {1
         setCurrentExercise(exercise);
         setModalVisible(true);
         Haptics.selectionAsync();
     };
 
     const handleDonePress = async () => {
-        const damageDealt = currentExercise.baseDamage;
-        setEnemyHealth(prevHealth => Math.max(prevHealth - damageDealt, 0));
-        setDamageText(`-${damageDealt}!`);
+        const baseDamage = currentExercise.baseDamage;
+        const additionalDamage = Math.floor(Math.random() * 6) + 1;
+        const criticalChance = Math.random() < 0.05;
+        const totalDamage = baseDamage + additionalDamage + (criticalChance ? baseDamage : 0);
+
+        if (criticalChance) {
+            console.log('Critical Hit!');
+        }
+        console.log('Additional Damage:', additionalDamage);
+
+        setEnemyHealth(prevHealth => Math.max(prevHealth - totalDamage, 0));
+        setDamageText(`-${totalDamage}${criticalChance ? '!!' : '!'}`);
         setModalVisible(false);
         Haptics.selectionAsync();
-        if (sound) {
-            await sound.setPositionAsync(0);
+
+        const soundFile = criticalChance ? require('../assets/sfx/criticalHit.wav') : require('../assets/sfx/hit.wav');
+
+        if (soundFile) {
+            const { sound } = await Audio.Sound.createAsync(soundFile);
             await sound.playAsync();
         }
     };
@@ -112,7 +109,7 @@ const Daily = () => {
                         source={{ uri: `${enemy.image}` }}
                         style={styles.enemyImage}
                     />
-                    {damageText ? <Text style={styles.damageText}>{damageText}</Text> : null}
+                    {damageText ? <Text style={[styles.damageText, damageText.includes('!!') ? { color: 'orange' } : null]}>{damageText}</Text> : null}
                 </ImageBackground>
             )}
             <Text style={styles.heading}>It's {muscleGroup} Day!</Text>
