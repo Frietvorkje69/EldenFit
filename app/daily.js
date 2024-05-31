@@ -4,12 +4,12 @@ import { Ionicons } from '@expo/vector-icons';
 import Modal from 'react-native-modal';
 import { Audio } from 'expo-av';
 import * as Haptics from "expo-haptics";
-import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import HealthBar from './healthBar';
 import exercises from './src/data/exercises.json';
 import enemies from './src/data/enemies.json';
 
-const Daily = () => {
+const Daily = ({ navigation }) => {
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [muscleGroup, setMuscleGroup] = useState('');
     const [enemy, setEnemy] = useState(null);
@@ -19,27 +19,39 @@ const Daily = () => {
     const [enemyMaxHealth, setEnemyMaxHealth] = useState(0);
     const [damageText, setDamageText] = useState('');
     const [shakeAnimation] = useState(new Animated.Value(0));
+    const [isEnemyDefeated, setEnemyDefeated] = useState(false);
+    const [showVictoryPopup, setShowVictoryPopup] = useState(false);
+    const [disableMoves, setDisableMoves] = useState(false);
     const buttonSelectSound = useRef(new Audio.Sound());
     const battleMusic = useRef(new Audio.Sound());
+    const victoryMusic = useRef(new Audio.Sound());
+    const swap = useNavigation();
 
     useFocusEffect(
         React.useCallback(() => {
             const playMusic = async () => {
                 try {
                     await battleMusic.current.loadAsync(require("../assets/music/battle.mp3"));
-                    await battleMusic.current.playAsync();
                     await battleMusic.current.setIsLoopingAsync(true);
+                    await battleMusic.current.playAsync();
+
+                    // Load the victory music
+                    await victoryMusic.current.loadAsync(require("../assets/music/victory.mp3"));
                 } catch (error) {
-                    console.error("Failed to load the battle music", error);
+                    console.error("Failed to load the music", error);
                 }
             };
 
             const stopMusic = async () => {
                 try {
-                    await battleMusic.current.stopAsync();
-                    await battleMusic.current.unloadAsync();
+                    await Promise.all([
+                        battleMusic.current.stopAsync(),
+                        battleMusic.current.unloadAsync(),
+                        victoryMusic.current.stopAsync(),
+                        victoryMusic.current.unloadAsync()
+                    ]);
                 } catch (error) {
-                    console.error("Failed to stop the battle music", error);
+                    console.error("Failed to stop the music", error);
                 }
             };
 
@@ -86,10 +98,24 @@ const Daily = () => {
         if (damageText) {
             const timer = setTimeout(() => {
                 setDamageText('');
-            }, 5000);
+            }, 3000);
             return () => clearTimeout(timer);
         }
     }, [damageText]);
+
+    useEffect(() => {
+        if (isEnemyDefeated) {
+            const delay = setTimeout(() => {
+                setShowVictoryPopup(true);
+                battleMusic.current.stopAsync();
+                victoryMusic.current.playAsync();
+            }, 500);
+
+            setDisableMoves(true);
+
+            return () => clearTimeout(delay);
+        }
+    }, [isEnemyDefeated]);
 
     const chooseRandomItem = (arr) => {
         return arr[Math.floor(Math.random() * arr.length)];
@@ -104,7 +130,7 @@ const Daily = () => {
         const stars = [];
         for (let i = 0; i < difficulty; i++) {
             stars.push(
-                <Ionicons key={i} name="star" size={10} color="white" style={styles.star} />
+                <Ionicons key={i} name="star" size={10} color="white" style={styles.star}/>
             );
         }
         return stars;
@@ -134,19 +160,32 @@ const Daily = () => {
 
         const intensity = criticalChance ? 20 : 10;
         const duration = criticalChance ? 150 : 100;
-
         Animated.sequence([
-            Animated.timing(shakeAnimation, { toValue: intensity, duration, useNativeDriver: true }),
-            Animated.timing(shakeAnimation, { toValue: -intensity, duration, useNativeDriver: true }),
-            Animated.timing(shakeAnimation, { toValue: intensity, duration, useNativeDriver: true }),
-            Animated.timing(shakeAnimation, { toValue: 0, duration, useNativeDriver: true })
+            Animated.timing(shakeAnimation, {toValue: intensity, duration, useNativeDriver: true}),
+            Animated.timing(shakeAnimation, {toValue: -intensity, duration, useNativeDriver: true}),
+            Animated.timing(shakeAnimation, {toValue: intensity, duration, useNativeDriver: true}),
+            Animated.timing(shakeAnimation, {toValue: 0, duration, useNativeDriver: true})
         ]).start();
 
         const soundFile = criticalChance ? require('../assets/sfx/criticalHit.wav') : require('../assets/sfx/hit.wav');
 
         if (soundFile) {
-            const { sound } = await Audio.Sound.createAsync(soundFile);
+            const {sound} = await Audio.Sound.createAsync(soundFile);
             await sound.playAsync();
+        }
+
+        if (enemyHealth - totalDamage <= 0) {
+            setEnemyDefeated(true);
+        }
+    };
+
+    const handleVictoryButtonPress = async (screenName) => {
+        try {
+            await buttonSelectSound.current.replayAsync();
+            await Haptics.selectionAsync();
+            swap.navigate(screenName);
+        } catch (error) {
+            console.error("Failed to go back to home", error);
         }
     };
 
@@ -156,24 +195,26 @@ const Daily = () => {
         <View style={styles.container}>
             {enemy !== null && enemy !== undefined && (
                 <ImageBackground
-                    source={{ uri: `${enemy.biome}` }}
+                    source={{uri: `${enemy.biome}`}}
                     style={styles.enemyContainer}
                 >
-                    <HealthBar health={enemyHealth} maxHealth={enemyMaxHealth} />
+                    <HealthBar health={enemyHealth} maxHealth={enemyMaxHealth}/>
                     <Animated.Image
-                        source={{ uri: `${enemy.image}` }}
-                        style={[styles.enemyImage, { transform: [{ translateX: shakeAnimation }] }]}
+                        source={{uri: `${enemy.image}`}}
+                        style={[styles.enemyImage, {transform: [{translateX: shakeAnimation}]}]}
                     />
-                    {damageText ? <Text style={[styles.damageText, damageText.includes('!!') ? { color: 'orange' } : null]}>{damageText}</Text> : null}
+                    {damageText ? <Text
+                        style={[styles.damageText, damageText.includes('!!') ? {color: 'orange'} : null]}>{damageText}</Text> : null}
                 </ImageBackground>
             )}
             <Text style={styles.heading}>It's {muscleGroup} Day!</Text>
             <View style={styles.movesContainer}>
                 {selectedExercises.map((exercise, index) => (
-                    <View style={[styles.buttonContainer, { width: '50%' }]} key={index}>
+                    <View style={[styles.buttonContainer, {width: '50%'}]} key={index}>
                         <TouchableOpacity
                             onPress={() => handleExercisePress(exercise)}
-                            style={styles.button}
+                            style={[styles.button, disableMoves && {opacity: 0.5}]}
+                            disabled={disableMoves}
                         >
                             <View style={styles.starsContainer}>
                                 {renderStars(exercise.difficulty)}
@@ -189,7 +230,7 @@ const Daily = () => {
                         <>
                             <Text style={styles.modalTitle}>{currentExercise.name}</Text>
                             <Text style={styles.modalSubtitle}>Reps: {currentExercise.amount}</Text>
-                            <Image source={{ uri: currentExercise.animation }} style={styles.modalImage} />
+                            <Image source={{uri: currentExercise.animation}} style={styles.modalImage}/>
                             <TouchableOpacity onPress={handleDonePress} style={styles.doneButton}>
                                 <Text style={styles.doneButtonText}>Done</Text>
                             </TouchableOpacity>
@@ -197,9 +238,21 @@ const Daily = () => {
                     )}
                 </View>
             </Modal>
+            {showVictoryPopup && (
+                <Modal isVisible={showVictoryPopup} backdropOpacity={0.7}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>{enemy.name} Defeated!</Text>
+                        <Text style={styles.modalSubtitle}>You've gained {enemy.reward} gold.</Text>
+                        <TouchableOpacity onPress={() => handleVictoryButtonPress("index")} style={styles.doneButton}>
+                            <Text style={styles.doneButtonText}>Head Back</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+            )}
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
@@ -307,7 +360,30 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 10,
     },
+    victoryPopup: {
+        position: 'absolute',
+        top: '40%',
+        left: '10%',
+        width: '80%',
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        zIndex: 999,
+    },
+    victoryText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    rewardText: {
+        fontSize: 16,
+        marginBottom: 20,
+    },
+    backButtonText: {
+        color: 'blue',
+        fontSize: 16,
+    },
 });
 
 export default Daily;
-
