@@ -74,6 +74,17 @@ export default function Index() {
 
     useFocusEffect(
         React.useCallback(() => {
+            const loadGoldFromStorage = async () => {
+                try {
+                    const storedGold = await AsyncStorage.getItem('gold');
+                    const goldValue = storedGold !== null ? parseInt(storedGold) : 0;
+                    setGold(goldValue);
+                } catch (error) {
+                    console.error('Failed to load gold from storage:', error);
+                }
+            };
+            loadGoldFromStorage();
+
             const playMusic = async () => {
                 try {
                     await soundObject.current.loadAsync(require("../assets/music/main.mp3"));
@@ -100,6 +111,7 @@ export default function Index() {
             };
         }, [])
     );
+
 
     const rotateInterpolate = rotateAnim.interpolate({
         inputRange: [0, 1],

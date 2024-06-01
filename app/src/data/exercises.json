@@ -11,7 +11,7 @@
   {
     "name": "Bench Dips",
     "description": "Targets triceps and chest",
-    "image": "https://example.com/benchdips.gif",
+    "image": "https://focusedonfit.com/s/uploads/2014/01/Bench-Dips-2.jpg",
     "muscleGroup": "chest",
     "baseDamage": 10,
     "amount": 15,
@@ -20,7 +20,7 @@
   {
     "name": "Diamond Push-ups",
     "description": "Focuses on triceps and inner chest",
-    "image": "https://example.com/diamondpushups.gif",
+    "image": "https://media1.popsugar-assets.com/files/thumbor/mELhQcUxOK5KO0IOFKay4GNsVbU/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2014/09/19/980/n/1922729/d39a48c6b467b940_diamoncollage/i/Diamond-Push-Up.jpg",
     "muscleGroup": "chest",
     "baseDamage": 11,
     "amount": 12,
@@ -29,7 +29,7 @@
   {
     "name": "Plyometric Push-ups",
     "description": "Explosive push-up variation for power",
-    "image": "https://example.com/plyometricpushups.gif",
+    "image": "https://www.inspireusafoundation.org/wp-content/uploads/2023/06/plyo-push-up-muscles-1024x283.png",
     "muscleGroup": "chest",
     "baseDamage": 12,
     "amount": 10,
@@ -38,7 +38,7 @@
   {
     "name": "Bodyweight Squats",
     "description": "Strengthens legs and core",
-    "image": "https://example.com/bodyweightsquats.gif",
+    "image": "https://stephenmoon.com/wp-content/uploads/2021/05/basic-bodyweight-squat-exercise-3.jpg",
     "muscleGroup": "legs",
     "baseDamage": 10,
     "amount": 25,
@@ -47,7 +47,7 @@
   {
     "name": "Lunges",
     "description": "Strengthens legs and improves balance",
-    "image": "https://example.com/lunges.gif",
+    "image": "https://static.vecteezy.com/system/resources/thumbnails/005/580/040/small/woman-doing-front-and-back-lunges-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
     "muscleGroup": "legs",
     "baseDamage": 12,
     "amount": "15 per leg",
@@ -56,7 +56,7 @@
   {
     "name": "Mountain Climbers",
     "description": "Cardiovascular and lower body workout",
-    "image": "https://example.com/mountainclimbers.gif",
+    "image": "https://cdn.mos.cms.futurecdn.net/PTedSPRsVdpujUm3hvhPa6-320-80.jpg",
     "muscleGroup": "legs",
     "baseDamage": 11,
     "amount": 30,
@@ -65,7 +65,7 @@
   {
     "name": "Jump Squats",
     "description": "Explosive squat variation for power",
-    "image": "https://example.com/jumpsquats.gif",
+    "image": "https://t4.ftcdn.net/jpg/04/62/86/57/360_F_462865716_1cqXVFMrgHECtM4pxvQ4c8tVvjPKunP6.jpg",
     "muscleGroup": "legs",
     "baseDamage": 12,
     "amount": 12,
@@ -74,7 +74,7 @@
   {
     "name": "Superman",
     "description": "Strengthens lower back and core",
-    "image": "https://example.com/superman.gif",
+    "image": "https://assets.clevelandclinic.org/transform/6d74c99e-e1fd-4a6d-be40-fa4c653ab4a5/how2-supermanEx-1286022887_770x533_jpg",
     "muscleGroup": "back",
     "baseDamage": 10,
     "amount": 20,
@@ -83,7 +83,7 @@
   {
     "name": "Bird Dog",
     "description": "Improves stability and strengthens back muscles",
-    "image": "https://example.com/birddog.gif",
+    "image": "https://static.vecteezy.com/system/resources/previews/008/573/017/original/man-doing-bird-dog-exercise-alternating-reach-and-kickbacks-posture-for-six-pack-flat-illustration-isolated-on-white-background-vector.jpg",
     "muscleGroup": "back",
     "baseDamage": 10,
     "amount": "12 per side",
@@ -92,7 +92,7 @@
   {
     "name": "Plank",
     "description": "Core stabilization exercise",
-    "image": "https://example.com/plank.gif",
+    "image": "https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2020/03/Indian-Male-Performing-Plank-In-Living-Room-Home-Workout.jpg?quality=86&strip=all",
     "muscleGroup": "back",
     "baseDamage": 11,
     "amount": "60 seconds",
@@ -101,7 +101,7 @@
   {
     "name": "Reverse Snow Angels",
     "description": "Targets upper back and shoulder muscles",
-    "image": "https://example.com/reversesnowangels.gif",
+    "image": "https://cdn.shopify.com/s/files/1/1585/6091/files/reverse_snow_angel_copia.jpg?v=1586407172",
     "muscleGroup": "back",
     "baseDamage": 12,
     "amount": 15,
