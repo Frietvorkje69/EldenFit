@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Animated, Easing } from "react-native";
 import { Audio } from "expo-av";
 import * as Haptics from "expo-haptics";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Index() {
+    const [gold, setGold] = useState(0);
     const rotateAnim = useRef(new Animated.Value(0)).current;
     const soundObject = useRef(new Audio.Sound());
     const logoHitSound = useRef(new Audio.Sound());
@@ -55,6 +57,20 @@ export default function Index() {
             animation.stop();
         };
     }, [rotateAnim]);
+
+    useEffect(() => {
+        // Load existing gold from local storage
+        const loadGoldFromStorage = async () => {
+            try {
+                const storedGold = await AsyncStorage.getItem('gold');
+                const goldValue = storedGold !== null ? parseInt(storedGold) : 0;
+                setGold(goldValue);
+            } catch (error) {
+                console.error('Failed to load gold from storage:', error);
+            }
+        };
+        loadGoldFromStorage();
+    }, []);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -131,9 +147,13 @@ export default function Index() {
                     <Text style={styles.buttonText}>Custom</Text>
                 </TouchableOpacity>
             </View>
+            <View style={styles.goldContainer}>
+                <Text style={styles.goldText}>Gold: {gold}</Text>
+            </View>
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -169,5 +189,14 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 10,
+    },
+    goldContainer: {
+        position: 'absolute',
+        bottom: 10,
+        left: 10,
+    },
+    goldText: {
+        color: 'white',
+        fontSize: 16,
     },
 });

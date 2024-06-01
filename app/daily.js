@@ -8,6 +8,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import HealthBar from './healthBar';
 import exercises from './src/data/exercises.json';
 import enemies from './src/data/enemies.json';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Daily = ({ navigation }) => {
     const [selectedExercises, setSelectedExercises] = useState([]);
@@ -22,6 +23,7 @@ const Daily = ({ navigation }) => {
     const [isEnemyDefeated, setEnemyDefeated] = useState(false);
     const [showVictoryPopup, setShowVictoryPopup] = useState(false);
     const [disableMoves, setDisableMoves] = useState(false);
+    const [gold, setGold] = useState(0);
     const buttonSelectSound = useRef(new Audio.Sound());
     const battleMusic = useRef(new Audio.Sound());
     const victoryMusic = useRef(new Audio.Sound());
@@ -35,7 +37,6 @@ const Daily = ({ navigation }) => {
                     await battleMusic.current.setIsLoopingAsync(true);
                     await battleMusic.current.playAsync();
 
-                    // Load the victory music
                     await victoryMusic.current.loadAsync(require("../assets/music/victory.mp3"));
                 } catch (error) {
                     console.error("Failed to load the music", error);
@@ -117,6 +118,22 @@ const Daily = ({ navigation }) => {
         }
     }, [isEnemyDefeated]);
 
+    useEffect(() => {
+        const loadGoldFromStorage = async () => {
+            try {
+                const gold = await AsyncStorage.getItem('gold');
+                if (gold !== null) {
+                    setGold(parseInt(gold));
+                } else {
+                    setGold(0);
+                }
+            } catch (error) {
+                console.error('Failed to load gold from storage:', error);
+            }
+        };
+        loadGoldFromStorage();
+    }, []);
+
     const chooseRandomItem = (arr) => {
         return arr[Math.floor(Math.random() * arr.length)];
     };
@@ -183,6 +200,13 @@ const Daily = ({ navigation }) => {
         try {
             await buttonSelectSound.current.replayAsync();
             await Haptics.selectionAsync();
+
+            const updatedGold = gold + enemy.reward;
+            setGold(updatedGold);
+
+            await AsyncStorage.setItem('gold', updatedGold.toString());
+            console.log('Gold saved to storage:', updatedGold);
+
             swap.navigate(screenName);
         } catch (error) {
             console.error("Failed to go back to home", error);
@@ -230,7 +254,7 @@ const Daily = ({ navigation }) => {
                         <>
                             <Text style={styles.modalTitle}>{currentExercise.name}</Text>
                             <Text style={styles.modalSubtitle}>Reps: {currentExercise.amount}</Text>
-                            <Image source={{uri: currentExercise.animation}} style={styles.modalImage}/>
+                            <Image source={{uri: currentExercise.image}} style={styles.modalImage}/>
                             <TouchableOpacity onPress={handleDonePress} style={styles.doneButton}>
                                 <Text style={styles.doneButtonText}>Done</Text>
                             </TouchableOpacity>

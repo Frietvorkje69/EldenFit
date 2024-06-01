@@ -2,120 +2,108 @@
   {
     "name": "Push-ups",
     "description": "Strengthens chest, shoulders, and triceps",
-    "animation": "https://www.fitnesseducation.edu.au/wp-content/uploads/2017/03/Pushups.jpg",
+    "image": "https://www.fitnesseducation.edu.au/wp-content/uploads/2017/03/Pushups.jpg",
     "muscleGroup": "chest",
     "baseDamage": 10,
-    "critRate": 12,
     "amount": 20,
     "difficulty": 1
   },
   {
     "name": "Bench Dips",
     "description": "Targets triceps and chest",
-    "animation": "https://example.com/benchdips.gif",
+    "image": "https://example.com/benchdips.gif",
     "muscleGroup": "chest",
     "baseDamage": 10,
-    "critRate": 12,
     "amount": 15,
     "difficulty": 1
   },
   {
     "name": "Diamond Push-ups",
     "description": "Focuses on triceps and inner chest",
-    "animation": "https://example.com/diamondpushups.gif",
+    "image": "https://example.com/diamondpushups.gif",
     "muscleGroup": "chest",
     "baseDamage": 11,
-    "critRate": 13,
     "amount": 12,
     "difficulty": 2
   },
   {
     "name": "Plyometric Push-ups",
     "description": "Explosive push-up variation for power",
-    "animation": "https://example.com/plyometricpushups.gif",
+    "image": "https://example.com/plyometricpushups.gif",
     "muscleGroup": "chest",
     "baseDamage": 12,
-    "critRate": 14,
     "amount": 10,
     "difficulty": 3
   },
   {
     "name": "Bodyweight Squats",
     "description": "Strengthens legs and core",
-    "animation": "https://example.com/bodyweightsquats.gif",
+    "image": "https://example.com/bodyweightsquats.gif",
     "muscleGroup": "legs",
     "baseDamage": 10,
-    "critRate": 12,
     "amount": 25,
     "difficulty": 1
   },
   {
     "name": "Lunges",
     "description": "Strengthens legs and improves balance",
-    "animation": "https://example.com/lunges.gif",
+    "image": "https://example.com/lunges.gif",
     "muscleGroup": "legs",
     "baseDamage": 12,
-    "critRate": 13,
     "amount": "15 per leg",
     "difficulty": 2
   },
   {
     "name": "Mountain Climbers",
     "description": "Cardiovascular and lower body workout",
-    "animation": "https://example.com/mountainclimbers.gif",
+    "image": "https://example.com/mountainclimbers.gif",
     "muscleGroup": "legs",
     "baseDamage": 11,
-    "critRate": 12,
     "amount": 30,
     "difficulty": 2
   },
   {
     "name": "Jump Squats",
     "description": "Explosive squat variation for power",
-    "animation": "https://example.com/jumpsquats.gif",
+    "image": "https://example.com/jumpsquats.gif",
     "muscleGroup": "legs",
     "baseDamage": 12,
-    "critRate": 14,
     "amount": 12,
     "difficulty": 3
   },
   {
     "name": "Superman",
     "description": "Strengthens lower back and core",
-    "animation": "https://example.com/superman.gif",
+    "image": "https://example.com/superman.gif",
     "muscleGroup": "back",
     "baseDamage": 10,
-    "critRate": 12,
     "amount": 20,
     "difficulty": 1
   },
   {
     "name": "Bird Dog",
     "description": "Improves stability and strengthens back muscles",
-    "animation": "https://example.com/birddog.gif",
+    "image": "https://example.com/birddog.gif",
     "muscleGroup": "back",
     "baseDamage": 10,
-    "critRate": 12,
     "amount": "12 per side",
     "difficulty": 1
   },
   {
     "name": "Plank",
     "description": "Core stabilization exercise",
-    "animation": "https://example.com/plank.gif",
+    "image": "https://example.com/plank.gif",
     "muscleGroup": "back",
     "baseDamage": 11,
-    "critRate": 13,
     "amount": "60 seconds",
     "difficulty": 2
   },
   {
     "name": "Reverse Snow Angels",
     "description": "Targets upper back and shoulder muscles",
-    "animation": "https://example.com/reversesnowangels.gif",
+    "image": "https://example.com/reversesnowangels.gif",
     "muscleGroup": "back",
     "baseDamage": 12,
-    "critRate": 14,
     "amount": 15,
     "difficulty": 2
   }
