@@ -11,7 +11,8 @@ const Shop = () => {
     const [gold, setGold] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [soldOutItems, setSoldOutItems] = useState([]);
+    const [boughtItems, setBoughtItems] = useState([]);
+    const [dialogueText, setDialogueText] = useState('');
 
     const dialogues = [
         "Ah, welcome, traveler!",
@@ -65,16 +66,16 @@ const Shop = () => {
         };
         loadGoldFromStorage();
 
-        const loadSoldOutItemsFromStorage = async () => {
+        const loadBoughtItemsFromStorage = async () => {
             try {
-                const storedSoldOutItems = await AsyncStorage.getItem('soldOutItems');
-                const soldOutItemsArray = storedSoldOutItems ? JSON.parse(storedSoldOutItems) : [];
-                setSoldOutItems(soldOutItemsArray);
+                const storedBoughtItems = await AsyncStorage.getItem('boughtItems');
+                const boughtItemsArray = storedBoughtItems ? JSON.parse(storedBoughtItems) : [];
+                setBoughtItems(boughtItemsArray);
             } catch (error) {
-                console.error('Failed to load sold-out items from storage:', error);
+                console.error('Failed to load bought items from storage:', error);
             }
         };
-        loadSoldOutItemsFromStorage();
+        loadBoughtItemsFromStorage();
 
         const categories = shopItems.reduce((acc, item) => {
             if (!acc[item.category]) {
@@ -84,6 +85,9 @@ const Shop = () => {
             return acc;
         }, {});
         setCategorizedItems(categories);
+
+        // Set initial dialogue text
+        setDialogueText(getRandomDialogue());
     }, []);
 
     const renderCategory = (category, items) => (
@@ -94,20 +98,23 @@ const Shop = () => {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() => handleItemClick(item)}
-                        disabled={soldOutItems.includes(item.name)}
-                        style={soldOutItems.includes(item.name) ? styles.disabledItem : null}
+                        disabled={boughtItems.some(boughtItem => boughtItem.name === item.name)}
+                        style={boughtItems.some(boughtItem => boughtItem.name === item.name) ? styles.disabledItem : null}
                     >
                         <View style={styles.itemContainer}>
                             <Image source={{ uri: item.image }} style={styles.itemImage} />
                             <View style={styles.itemTextContainer}>
                                 <Text style={styles.itemName}>{item.name}</Text>
                                 <Text style={styles.itemDescription}>{item.description}</Text>
+                                {category !== "Exercise" && (
+                                    <Text style={styles.itemStackable}>Stackable: {item.stackable ? 'Yes' : 'No'}</Text>
+                                )}
                                 <View style={styles.priceContainer}>
                                     <Text style={styles.itemPrice}>Price: {item.price} Gold</Text>
                                 </View>
                             </View>
                         </View>
-                        {soldOutItems.includes(item.name) && (
+                        {boughtItems.some(boughtItem => boughtItem.name === item.name) && (
                             <View style={styles.soldOutOverlay}>
                                 <Text style={styles.soldOutText}>Sold Out</Text>
                             </View>
@@ -130,9 +137,9 @@ const Shop = () => {
             setGold(updatedGold);
             await AsyncStorage.setItem('gold', updatedGold.toString());
 
-            const updatedSoldOutItems = [...soldOutItems, selectedItem.name];
-            setSoldOutItems(updatedSoldOutItems);
-            await AsyncStorage.setItem('soldOutItems', JSON.stringify(updatedSoldOutItems));
+            const updatedBoughtItems = [...boughtItems, selectedItem];
+            setBoughtItems(updatedBoughtItems);
+            await AsyncStorage.setItem('boughtItems', JSON.stringify(updatedBoughtItems));
 
             setModalVisible(false);
         }
@@ -152,7 +159,7 @@ const Shop = () => {
                         style={styles.shopkeeperImage}
                     />
                     <View style={styles.dialogueBox}>
-                        <Text style={styles.dialogueText}>{getRandomDialogue()}</Text>
+                        <Text style={styles.dialogueText}>{dialogueText}</Text>
                     </View>
                 </View>
                 <View style={styles.goldContainer}>
@@ -263,7 +270,6 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     itemDescription: {
-        paddingBottom: 5,
         fontSize: 14,
         color: 'white',
     },
@@ -277,6 +283,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 5,
         alignSelf: 'flex-start',
+    },
+    itemStackable: {
+        paddingBottom: 5,
+        fontSize: 14,
+        color: 'white',
     },
     goldContainer: {
         backgroundColor: 'orange',
@@ -357,4 +368,3 @@ const styles = StyleSheet.create({
 });
 
 export default Shop;
-

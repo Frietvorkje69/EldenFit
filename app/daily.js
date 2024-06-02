@@ -24,6 +24,7 @@ const Daily = ({ navigation }) => {
     const [showVictoryPopup, setShowVictoryPopup] = useState(false);
     const [disableMoves, setDisableMoves] = useState(false);
     const [gold, setGold] = useState(0);
+    const [boughtItems, setBoughtItems] = useState([]);
     const buttonSelectSound = useRef(new Audio.Sound());
     const battleMusic = useRef(new Audio.Sound());
     const victoryMusic = useRef(new Audio.Sound());
@@ -89,6 +90,17 @@ const Daily = ({ navigation }) => {
             }
         };
         loadButtonSelectSound();
+
+        const loadBoughtItemsFromStorage = async () => {
+            try {
+                const storedBoughtItems = await AsyncStorage.getItem('boughtItems');
+                const boughtItemsArray = storedBoughtItems ? JSON.parse(storedBoughtItems) : [];
+                setBoughtItems(boughtItemsArray);
+            } catch (error) {
+                console.error('Failed to load bought items from storage:', error);
+            }
+        };
+        loadBoughtItemsFromStorage();
 
         return () => {
             buttonSelectSound.current.unloadAsync();
@@ -165,29 +177,55 @@ const Daily = ({ navigation }) => {
     };
 
     const handleDonePress = async () => {
-        const baseDamage = currentExercise.baseDamage;
-        const additionalDamage = Math.floor(Math.random() * 6) + 1;
-        const criticalChance = Math.random() < 0.05;
-        const totalDamage = baseDamage + additionalDamage + (criticalChance ? baseDamage : 0);
+        let baseDamage = currentExercise.baseDamage;
+        let additionalDamage = Math.floor(Math.random() * 6) + 1;
+        let criticalChance = 0.05;
+
+        console.log('Initial base damage:', baseDamage);
+        console.log('Initial critical chance:', criticalChance);
+        console.log('Additional damage:', additionalDamage);
+
+        const highestBaseDamageItem = boughtItems
+            .filter(item => item.category === "Base Damage")
+            .reduce((max, item) => item.effect > max.effect ? item : max, { effect: 0 });
+
+        if (highestBaseDamageItem.effect > 0) {
+            baseDamage += highestBaseDamageItem.effect;
+        }
+
+        boughtItems.forEach(item => {
+            if (item.category === "Critical Rate") {
+                criticalChance += item.effect;
+            }
+        });
+
+        console.log('Base damage after item effects:', baseDamage);
+        console.log('Critical chance after item effects:', criticalChance);
+
+        const criticalHit = Math.random() < criticalChance;
+        const totalDamage = baseDamage + additionalDamage + (criticalHit ? baseDamage : 0);
+
+        console.log('Critical hit:', criticalHit);
+        console.log('Total damage:', totalDamage);
 
         setEnemyHealth(prevHealth => Math.max(prevHealth - totalDamage, 0));
-        setDamageText(`-${totalDamage}${criticalChance ? '!!' : '!'}`);
+        setDamageText(`-${totalDamage}${criticalHit ? '!!' : '!'}`);
         setModalVisible(false);
         Haptics.selectionAsync();
 
-        const intensity = criticalChance ? 20 : 10;
-        const duration = criticalChance ? 150 : 100;
+        const intensity = criticalHit ? 20 : 10;
+        const duration = criticalHit ? 150 : 100;
         Animated.sequence([
-            Animated.timing(shakeAnimation, {toValue: intensity, duration, useNativeDriver: true}),
-            Animated.timing(shakeAnimation, {toValue: -intensity, duration, useNativeDriver: true}),
-            Animated.timing(shakeAnimation, {toValue: intensity, duration, useNativeDriver: true}),
-            Animated.timing(shakeAnimation, {toValue: 0, duration, useNativeDriver: true})
+            Animated.timing(shakeAnimation, { toValue: intensity, duration, useNativeDriver: true }),
+            Animated.timing(shakeAnimation, { toValue: -intensity, duration, useNativeDriver: true }),
+            Animated.timing(shakeAnimation, { toValue: intensity, duration, useNativeDriver: true }),
+            Animated.timing(shakeAnimation, { toValue: 0, duration, useNativeDriver: true })
         ]).start();
 
-        const soundFile = criticalChance ? require('../assets/sfx/criticalHit.wav') : require('../assets/sfx/hit.wav');
+        const soundFile = criticalHit ? require('../assets/sfx/criticalHit.wav') : require('../assets/sfx/hit.wav');
 
         if (soundFile) {
-            const {sound} = await Audio.Sound.createAsync(soundFile);
+            const { sound } = await Audio.Sound.createAsync(soundFile);
             await sound.playAsync();
         }
 
@@ -195,6 +233,7 @@ const Daily = ({ navigation }) => {
             setEnemyDefeated(true);
         }
     };
+
 
     const handleVictoryButtonPress = async (screenName) => {
         try {
@@ -276,7 +315,6 @@ const Daily = ({ navigation }) => {
         </View>
     );
 };
-
 
 const styles = StyleSheet.create({
     container: {

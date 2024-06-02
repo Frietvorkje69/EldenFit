@@ -3,7 +3,8 @@
     "name": "Critical Mastery I",
     "description": "Empower your muscles. (+1% Critical Rate)",
     "image": "https://i.imgur.com/QrLkhzc.png",
-    "effect": 1,
+    "effect": 0.01,
+    "stackable": true,
     "category": "Critical Rate",
     "price": 80
   },
@@ -11,7 +12,8 @@
     "name": "Critical Mastery II",
     "description": "Strengthen your muscles even further. (+1.5% Critical Rate)",
     "image": "https://i.imgur.com/QrLkhzc.png",
-    "effect": 1.5,
+    "effect": 0.015,
+    "stackable": true,
     "category": "Critical Rate",
     "price": 210
   },
@@ -19,7 +21,8 @@
     "name": "Critical Mastery III",
     "description": "Drop your training weights. (+2.5% Critical Rate)",
     "image": "https://i.imgur.com/QrLkhzc.png",
-    "effect": 2.5,
+    "effect": 0.025,
+    "stackable": true,
     "category": "Critical Rate",
     "price": 450
   },
@@ -31,6 +34,7 @@
     "description": "Just a steel sword. (+3 Base Damage)",
     "image": "https://i.imgur.com/Lp9GJfj.png",
     "effect": 3,
+    "stackable": false,
     "category": "Base Damage",
     "price": 110
   },
@@ -39,6 +43,7 @@
     "description": "A sword filled with mana from it's ancient users. (+5 Base Damage)",
     "image": "https://i.imgur.com/x9RPVIt.png",
     "effect": 5,
+    "stackable": false,
     "category": "Base Damage",
     "price": 200
   },
@@ -47,6 +52,7 @@
     "description": "A powerful sword shining blue in the night. (+10 Base Damage)",
     "image": "https://i.imgur.com/DCWBcfY.png",
     "effect": 10,
+    "stackable": false,
     "category": "Base Damage",
     "price": 350
   },
