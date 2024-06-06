@@ -66,13 +66,30 @@ const Daily = ({ navigation }) => {
     );
 
     useEffect(() => {
+        const loadBoughtItemsFromStorage = async () => {
+            try {
+                const storedBoughtItems = await AsyncStorage.getItem('boughtItems');
+                const boughtItemsArray = storedBoughtItems ? JSON.parse(storedBoughtItems) : [];
+                setBoughtItems(boughtItemsArray);
+            } catch (error) {
+                console.error('Failed to load bought items from storage:', error);
+            }
+        };
+        loadBoughtItemsFromStorage();
+    }, []);
+
+    useEffect(() => {
         const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
         const selectedMuscleGroup = chooseRandomItem(muscleGroups);
 
         setMuscleGroup(selectedMuscleGroup.charAt(0).toUpperCase() + selectedMuscleGroup.slice(1));
 
         const exercisesInGroup = exercises.filter(exercise => exercise.muscleGroup === selectedMuscleGroup);
-        const selectedExercises = chooseRandomItems(exercisesInGroup, 4);
+
+        const exerciseItems = boughtItems.filter(item => item.category === 'Exercise' && item.muscleGroup === selectedMuscleGroup);
+        const combinedExercises = [...exercisesInGroup, ...exerciseItems];
+
+        const selectedExercises = chooseRandomItems(combinedExercises, 4);
 
         setSelectedExercises(selectedExercises);
 
@@ -91,21 +108,10 @@ const Daily = ({ navigation }) => {
         };
         loadButtonSelectSound();
 
-        const loadBoughtItemsFromStorage = async () => {
-            try {
-                const storedBoughtItems = await AsyncStorage.getItem('boughtItems');
-                const boughtItemsArray = storedBoughtItems ? JSON.parse(storedBoughtItems) : [];
-                setBoughtItems(boughtItemsArray);
-            } catch (error) {
-                console.error('Failed to load bought items from storage:', error);
-            }
-        };
-        loadBoughtItemsFromStorage();
-
         return () => {
             buttonSelectSound.current.unloadAsync();
         };
-    }, []);
+    }, [boughtItems]);
 
     useEffect(() => {
         if (damageText) {

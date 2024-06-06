@@ -59,7 +59,7 @@
 
 
   {
-    "name": "Explosive Clap Push-ups",
+    "name": "Clap Push-ups",
     "description": "An advanced push-up variation with a clap for explosive power!",
     "image": "https://www.muscleandfitness.com/wp-content/uploads/2018/04/1109-clap-pushup.jpg?quality=86&strip=all",
     "muscleGroup": "chest",
@@ -84,7 +84,7 @@
     "name": "Dragon Flag",
     "description": "A high-intensity core and back exercise for maximum strength and stability.",
     "image": "https://s3.amazonaws.com/prod.skimble/assets/1001414/image_iphone.jpg",
-    "muscle_group": "back",
+    "muscleGroup": "back",
     "baseDamage": 20,
     "amount": 10,
     "difficulty": 4,

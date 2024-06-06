@@ -85,8 +85,7 @@ const Shop = () => {
             return acc;
         }, {});
         setCategorizedItems(categories);
-
-        // Set initial dialogue text
+        
         setDialogueText(getRandomDialogue());
     }, []);
 
@@ -172,7 +171,6 @@ const Shop = () => {
                 keyExtractor={(item) => item[0]}
             />
 
-            {/* Modal */}
             <Modal
                 animationType="slide"
                 transparent={true}
