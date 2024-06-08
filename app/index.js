@@ -59,7 +59,6 @@ export default function Index() {
     }, [rotateAnim]);
 
     useEffect(() => {
-        // Load existing gold from local storage
         const loadGoldFromStorage = async () => {
             try {
                 const storedGold = await AsyncStorage.getItem('gold');

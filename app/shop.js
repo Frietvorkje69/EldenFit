@@ -7,6 +7,7 @@ import shopItems from './src/data/shopItems.json';
 
 const Shop = () => {
     const shopMusic = useRef(new Audio.Sound());
+    const buttonSelectSound = useRef(new Audio.Sound());
     const [categorizedItems, setCategorizedItems] = useState({});
     const [gold, setGold] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
@@ -55,6 +56,15 @@ const Shop = () => {
     );
 
     useEffect(() => {
+        const loadButtonSelectSound = async () => {
+            try {
+                await buttonSelectSound.current.loadAsync(require("../assets/sfx/buttonSelect.wav"));
+            } catch (error) {
+                console.error("Failed to load the button select sound", error);
+            }
+        };
+        loadButtonSelectSound();
+
         const loadGoldFromStorage = async () => {
             try {
                 const storedGold = await AsyncStorage.getItem('gold');
@@ -125,12 +135,14 @@ const Shop = () => {
         </View>
     );
 
-    const handleItemClick = (item) => {
+    const handleItemClick = async (item) => {
         setSelectedItem(item);
         setModalVisible(true);
+        await buttonSelectSound.current.replayAsync();
     };
 
     const purchaseItem = async () => {
+        await buttonSelectSound.current.replayAsync();
         if (selectedItem && gold >= selectedItem.price) {
             const updatedGold = gold - selectedItem.price;
             setGold(updatedGold);

@@ -10,6 +10,9 @@ import exercises from './src/data/exercises.json';
 import enemies from './src/data/enemies.json';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Global variable to track custom mode
+let isCustomMode = false;
+
 const Daily = ({ navigation }) => {
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [muscleGroup, setMuscleGroup] = useState('');
@@ -45,6 +48,7 @@ const Daily = ({ navigation }) => {
             };
 
             const stopMusic = async () => {
+                isCustomMode = false;
                 try {
                     await Promise.all([
                         battleMusic.current.stopAsync(),
@@ -79,39 +83,62 @@ const Daily = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
-        const selectedMuscleGroup = chooseRandomItem(muscleGroups);
-
-        setMuscleGroup(selectedMuscleGroup.charAt(0).toUpperCase() + selectedMuscleGroup.slice(1));
-
-        const exercisesInGroup = exercises.filter(exercise => exercise.muscleGroup === selectedMuscleGroup);
-
-        const exerciseItems = boughtItems.filter(item => item.category === 'Exercise' && item.muscleGroup === selectedMuscleGroup);
-        const combinedExercises = [...exercisesInGroup, ...exerciseItems];
-
-        const selectedExercises = chooseRandomItems(combinedExercises, 4);
-
-        setSelectedExercises(selectedExercises);
-
-        const randomEnemy = chooseRandomItem(enemies);
-        const enemyHP = randomEnemy.health;
-        setEnemy(randomEnemy);
-        setEnemyHealth(enemyHP);
-        setEnemyMaxHealth(enemyHP);
-
-        const loadButtonSelectSound = async () => {
+        const loadCustomMuscleGroup = async () => {
             try {
-                await buttonSelectSound.current.loadAsync(require("../assets/sfx/buttonSelect.wav"));
+                const customMuscleGroup = await AsyncStorage.getItem('CustomMuscle');
+                if (customMuscleGroup) {
+                    isCustomMode = true;
+                    setMuscleGroup(customMuscleGroup.charAt(0).toUpperCase() + customMuscleGroup.slice(1));
+                    await AsyncStorage.removeItem('CustomMuscle');
+                } else {
+                    const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
+                    const selectedMuscleGroup = chooseRandomItem(muscleGroups);
+                    setMuscleGroup(selectedMuscleGroup.charAt(0).toUpperCase() + selectedMuscleGroup.slice(1));
+                }
             } catch (error) {
-                console.error("Failed to load the button select sound", error);
+                console.error('Failed to load custom muscle group from storage:', error);
             }
         };
-        loadButtonSelectSound();
 
-        return () => {
-            buttonSelectSound.current.unloadAsync();
-        };
-    }, [boughtItems]);
+        loadCustomMuscleGroup();
+    }, []);
+
+    useEffect(() => {
+        if (!isCustomMode) {
+            const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
+            const selectedMuscleGroup = chooseRandomItem(muscleGroups);
+            setMuscleGroup(selectedMuscleGroup.charAt(0).toUpperCase() + selectedMuscleGroup.slice(1));
+
+            const exercisesInGroup = exercises.filter(exercise => exercise.muscleGroup === selectedMuscleGroup);
+
+            const exerciseItems = boughtItems.filter(item => item.category === 'Exercise' && item.muscleGroup === selectedMuscleGroup);
+            const combinedExercises = [...exercisesInGroup, ...exerciseItems];
+
+            const selectedExercises = chooseRandomItems(combinedExercises, 4);
+
+            setSelectedExercises(selectedExercises);
+
+            const randomEnemy = chooseRandomItem(enemies);
+            const enemyHP = randomEnemy.health;
+            setEnemy(randomEnemy);
+            setEnemyHealth(enemyHP);
+            setEnemyMaxHealth(enemyHP);
+
+            const loadButtonSelectSound = async () => {
+                try {
+                    await buttonSelectSound.current.loadAsync(require("../assets/sfx/buttonSelect.wav"));
+                } catch (error) {
+                    //console.error("Failed to load the button select sound", error);
+                }
+            };
+            loadButtonSelectSound();
+
+            return () => {
+                buttonSelectSound.current.unloadAsync();
+            };
+        }
+    }, [boughtItems, isCustomMode]);
+
 
     useEffect(() => {
         if (damageText) {
