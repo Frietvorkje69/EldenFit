@@ -90,10 +90,9 @@ const Daily = ({ navigation }) => {
                     isCustomMode = true;
                     setMuscleGroup(customMuscleGroup.charAt(0).toUpperCase() + customMuscleGroup.slice(1));
                     await AsyncStorage.removeItem('CustomMuscle');
+                    console.log('in Custom Workout Mode')
                 } else {
-                    const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
-                    const selectedMuscleGroup = chooseRandomItem(muscleGroups);
-                    setMuscleGroup(selectedMuscleGroup.charAt(0).toUpperCase() + selectedMuscleGroup.slice(1));
+                    console.log('in Daily Workout Mode')
                 }
             } catch (error) {
                 console.error('Failed to load custom muscle group from storage:', error);
@@ -375,6 +374,7 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: 'black',
+        height: 80,
         padding: 15,
         borderRadius: 10,
         width: '100%',
