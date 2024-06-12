@@ -138,7 +138,6 @@ const Daily = ({ navigation }) => {
         }
     }, [boughtItems, isCustomMode]);
 
-
     useEffect(() => {
         if (damageText) {
             const timer = setTimeout(() => {
@@ -209,7 +208,7 @@ const Daily = ({ navigation }) => {
     };
 
     const handleDonePress = async () => {
-        let baseDamage = currentExercise.baseDamage;
+        let baseDamage = currentExercise.baseDamage * 2; // REMOVE ( * 2 ) LATER
         let additionalDamage = Math.floor(Math.random() * 6) + 1;
         let criticalChance = 0.05;
 
@@ -271,8 +270,13 @@ const Daily = ({ navigation }) => {
         try {
             await buttonSelectSound.current.replayAsync();
             await Haptics.selectionAsync();
+            let updatedGold;
 
-            const updatedGold = gold + enemy.reward;
+            if (!isCustomMode) {
+                updatedGold = gold + enemy.reward;
+            } else {
+                updatedGold = gold + Math.ceil(enemy.reward / 3);
+            }
             setGold(updatedGold);
 
             await AsyncStorage.setItem('gold', updatedGold.toString());
@@ -302,7 +306,9 @@ const Daily = ({ navigation }) => {
                         style={[styles.damageText, damageText.includes('!!') ? {color: 'orange'} : null]}>{damageText}</Text> : null}
                 </ImageBackground>
             )}
-            <Text style={styles.heading}>It's {muscleGroup} Day!</Text>
+            <Text style={styles.heading}>
+                It's {isCustomMode ? `${muscleGroup} time!` : `${muscleGroup} Day!`}
+            </Text>
             <View style={styles.movesContainer}>
                 {selectedExercises.map((exercise, index) => (
                     <View style={[styles.buttonContainer, {width: '50%'}]} key={index}>
@@ -337,7 +343,9 @@ const Daily = ({ navigation }) => {
                 <Modal isVisible={showVictoryPopup} backdropOpacity={0.7}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>{enemy.name} Defeated!</Text>
-                        <Text style={styles.modalSubtitle}>You've gained {enemy.reward} gold.</Text>
+                        <Text style={styles.modalSubtitle}>
+                            You've gained {Math.ceil(isCustomMode ? enemy.reward / 3 : enemy.reward)} gold.
+                        </Text>
                         <TouchableOpacity onPress={() => handleVictoryButtonPress("index")} style={styles.doneButton}>
                             <Text style={styles.doneButtonText}>Head Back</Text>
                         </TouchableOpacity>

@@ -111,7 +111,6 @@ export default function Index() {
         }, [])
     );
 
-
     const rotateInterpolate = rotateAnim.interpolate({
         inputRange: [0, 1],
         outputRange: ["-5deg", "5deg"],
@@ -132,6 +131,16 @@ export default function Index() {
             await logoHitSound.current.replayAsync();
         } catch (error) {
             console.error("Failed to play the logo hit sound", error);
+        }
+    };
+
+    const handleClearStorage = async () => {
+        try {
+            await AsyncStorage.clear();
+            console.log("Local storage cleared.");
+            setGold(0);
+        } catch (error) {
+            console.error("Failed to clear local storage:", error);
         }
     };
 
@@ -158,13 +167,17 @@ export default function Index() {
                     <Text style={styles.buttonText}>Custom</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.goldContainer}>
-                <Text style={styles.goldText}>Gold: {gold}</Text>
+            <View style={styles.footerContainer}>
+                <View style={styles.goldContainer}>
+                    <Text style={styles.goldText}>Gold: {gold}</Text>
+                </View>
+                <TouchableOpacity style={styles.clearButton} onPress={handleClearStorage}>
+                    <Ionicons name="trash-outline" size={24} color="white" style={styles.clearIcon} />
+                </TouchableOpacity>
             </View>
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -201,13 +214,27 @@ const styles = StyleSheet.create({
     icon: {
         marginRight: 10,
     },
-    goldContainer: {
+    footerContainer: {
         position: 'absolute',
         bottom: 10,
         left: 10,
+        right: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    goldContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     goldText: {
         color: 'white',
         fontSize: 16,
+    },
+    clearButton: {
+        padding: 10,
+    },
+    clearIcon: {
+        color: 'white',
     },
 });

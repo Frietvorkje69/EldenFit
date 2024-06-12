@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from "expo-av";
 
@@ -17,7 +17,7 @@ const Custom = () => {
                     await customMusic.current.playAsync();
                     await customMusic.current.setIsLoopingAsync(true);
                 } catch (error) {
-                    console.error("Failed to load the shop music", error);
+                    console.error("Failed to load the custom music", error);
                 }
             };
 
@@ -26,7 +26,7 @@ const Custom = () => {
                     await customMusic.current.stopAsync();
                     await customMusic.current.unloadAsync();
                 } catch (error) {
-                    console.error("Failed to stop the shop music", error);
+                    console.error("Failed to stop the custom music", error);
                 }
             };
 
@@ -66,15 +66,19 @@ const Custom = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Choose a Muscle Group</Text>
+            <Text style={styles.title}>Into the Custom Realm</Text>
+            <Text style={styles.subtitle}>Choose a muscle group. This will enter a workout (fight) based on the muscles you wish to train.</Text>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={() => handlePress('Back')}>
+                    <Image source={require('../assets/images/icons/back.png')} style={styles.icon} />
                     <Text style={styles.buttonText}>Back</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => handlePress('Legs')}>
+                    <Image source={require('../assets/images/icons/legs.png')} style={styles.icon} />
                     <Text style={styles.buttonText}>Legs</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => handlePress('Chest')}>
+                    <Image source={require('../assets/images/icons/chest.png')} style={styles.icon} />
                     <Text style={styles.buttonText}>Chest</Text>
                 </TouchableOpacity>
             </View>
@@ -90,29 +94,51 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
     },
     title: {
-        fontSize: 24,
+        fontSize: 28,
         color: 'white',
-        marginBottom: 20,
+        marginBottom: 10,
+        fontWeight: 'bold',
+    },
+    subtitle: {
+        fontSize: 18,
+        color: 'gray',
+        marginBottom: 30,
+        textAlign: 'center',
+        paddingHorizontal: 20,
     },
     buttonContainer: {
         alignItems: 'center',
     },
     button: {
-        backgroundColor: 'black',
-        padding: 15,
-        borderRadius: 10,
-        marginBottom: 10,
-        width: 200,
+        backgroundColor: '#000',
+        padding: 20,
+        borderRadius: 15,
+        marginBottom: 15,
+        width: 250,
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1,
         borderColor: 'white',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    icon: {
+        width: 40,
+        height: 40,
+        marginRight: 15,
     },
     buttonText: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 18,
         flex: 1,
         textAlign: 'center',
+        fontWeight: 'bold',
     },
 });
 
