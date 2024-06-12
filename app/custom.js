@@ -14,6 +14,7 @@ const Custom = () => {
             const playMusic = async () => {
                 try {
                     await customMusic.current.loadAsync(require("../assets/music/custom.mp3"));
+                    await customMusic.current.setVolumeAsync(0.3);
                     await customMusic.current.playAsync();
                     await customMusic.current.setIsLoopingAsync(true);
                 } catch (error) {
@@ -69,15 +70,15 @@ const Custom = () => {
             <Text style={styles.title}>Into the Custom Realm</Text>
             <Text style={styles.subtitle}>Choose a muscle group. This will enter a workout (fight) based on the muscles you wish to train.</Text>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => handlePress('Back')}>
+                <TouchableOpacity style={styles.button} onPress={() => handlePress('back')}>
                     <Image source={require('../assets/images/icons/back.png')} style={styles.icon} />
                     <Text style={styles.buttonText}>Back</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => handlePress('Legs')}>
+                <TouchableOpacity style={styles.button} onPress={() => handlePress('legs')}>
                     <Image source={require('../assets/images/icons/legs.png')} style={styles.icon} />
                     <Text style={styles.buttonText}>Legs</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => handlePress('Chest')}>
+                <TouchableOpacity style={styles.button} onPress={() => handlePress('chest')}>
                     <Image source={require('../assets/images/icons/chest.png')} style={styles.icon} />
                     <Text style={styles.buttonText}>Chest</Text>
                 </TouchableOpacity>

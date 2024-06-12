@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, Image, Animated } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, Dimensions, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
 import Modal from 'react-native-modal';
-import { Audio } from 'expo-av';
+import {Audio} from 'expo-av';
 import * as Haptics from "expo-haptics";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import HealthBar from './healthBar';
 import exercises from './src/data/exercises.json';
 import enemies from './src/data/enemies.json';
@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Global variable to track custom mode
 let isCustomMode = false;
 
-const Daily = ({ navigation }) => {
+const Daily = ({navigation}) => {
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [muscleGroup, setMuscleGroup] = useState('');
     const [enemy, setEnemy] = useState(null);
@@ -88,8 +88,6 @@ const Daily = ({ navigation }) => {
                 const customMuscleGroup = await AsyncStorage.getItem('CustomMuscle');
                 if (customMuscleGroup) {
                     isCustomMode = true;
-                    setMuscleGroup(customMuscleGroup.charAt(0).toUpperCase() + customMuscleGroup.slice(1));
-                    await AsyncStorage.removeItem('CustomMuscle');
                     console.log('in Custom Workout Mode')
                 } else {
                     console.log('in Daily Workout Mode')
@@ -103,11 +101,57 @@ const Daily = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        if (!isCustomMode) {
-            const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
-            const selectedMuscleGroup = chooseRandomItem(muscleGroups);
-            setMuscleGroup(selectedMuscleGroup.charAt(0).toUpperCase() + selectedMuscleGroup.slice(1));
+        const loadFightState = async () => {
+            if (!isCustomMode) {
+                try {
+                    const storedFightState = await AsyncStorage.getItem('fightState');
+                    if (storedFightState) {
+                        const {
+                            savedEnemy,
+                            savedEnemyHealth,
+                            savedEnemyMaxHealth,
+                            savedMuscleGroup,
+                            savedExercises
+                        } = JSON.parse(storedFightState);
+                        setEnemy(savedEnemy);
+                        setEnemyHealth(savedEnemyHealth);
+                        setEnemyMaxHealth(savedEnemyMaxHealth);
+                        setMuscleGroup(savedMuscleGroup);
+                        setSelectedExercises(savedExercises);
+                    } else {
+                        startNewFight();
+                    }
+                } catch (error) {
+                    console.error('Failed to load fight state from storage:', error);
+                    startNewFight();
+                }
+            } else {
+                startNewFight();
+            }
 
+            const loadButtonSelectSound = async () => {
+                try {
+                    await buttonSelectSound.current.loadAsync(require("../assets/sfx/buttonSelect.wav"));
+                } catch (error) {
+                    // console.error("Failed to load the button select sound", error);
+                }
+            };
+            loadButtonSelectSound();
+        };
+
+
+        const startNewFight = async () => {
+            let selectedMuscleGroup;
+
+            if (isCustomMode) {
+                selectedMuscleGroup = await AsyncStorage.getItem('CustomMuscle');
+                await AsyncStorage.removeItem('CustomMuscle');
+            } else {
+                const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
+                selectedMuscleGroup = chooseRandomItem(muscleGroups);
+            }
+
+            setMuscleGroup(selectedMuscleGroup.charAt(0).toUpperCase() + selectedMuscleGroup.slice(1));
             const exercisesInGroup = exercises.filter(exercise => exercise.muscleGroup === selectedMuscleGroup);
 
             const exerciseItems = boughtItems.filter(item => item.category === 'Exercise' && item.muscleGroup === selectedMuscleGroup);
@@ -136,6 +180,8 @@ const Daily = ({ navigation }) => {
                 buttonSelectSound.current.unloadAsync();
             };
         }
+
+        loadFightState();
     }, [boughtItems, isCustomMode]);
 
     useEffect(() => {
@@ -148,18 +194,30 @@ const Daily = ({ navigation }) => {
     }, [damageText]);
 
     useEffect(() => {
-        if (isEnemyDefeated) {
-            const delay = setTimeout(() => {
-                setShowVictoryPopup(true);
-                battleMusic.current.stopAsync();
-                victoryMusic.current.playAsync();
-            }, 500);
+        let delay;
 
-            setDisableMoves(true);
+        const handleVictory = async () => {
+            if (isEnemyDefeated) {
+                delay = setTimeout(() => {
+                    setShowVictoryPopup(true);
+                    battleMusic.current.stopAsync();
+                    victoryMusic.current.playAsync();
+                }, 500);
 
-            return () => clearTimeout(delay);
-        }
+                setDisableMoves(true);
+                await AsyncStorage.removeItem('fightState');
+            }
+        };
+
+        handleVictory();
+
+        return () => {
+            if (delay) {
+                clearTimeout(delay);
+            }
+        };
     }, [isEnemyDefeated]);
+
 
     useEffect(() => {
         const loadGoldFromStorage = async () => {
@@ -176,6 +234,29 @@ const Daily = ({ navigation }) => {
         };
         loadGoldFromStorage();
     }, []);
+
+    useEffect(() => {
+        const saveFightState = async () => {
+            try {
+                if (!isCustomMode && enemy) {
+                    const fightState = {
+                        savedEnemy: enemy,
+                        savedEnemyHealth: enemyHealth,
+                        savedEnemyMaxHealth: enemyMaxHealth,
+                        savedMuscleGroup: muscleGroup,
+                        savedExercises: selectedExercises
+                    };
+                    await AsyncStorage.setItem('fightState', JSON.stringify(fightState));
+                }
+            } catch (error) {
+                console.error('Failed to save fight state to storage:', error);
+            }
+        };
+
+        if (enemy) {
+            saveFightState();
+        }
+    }, [enemy, enemyHealth, enemyMaxHealth, muscleGroup, selectedExercises]);
 
     const chooseRandomItem = (arr) => {
         return arr[Math.floor(Math.random() * arr.length)];
@@ -212,13 +293,16 @@ const Daily = ({ navigation }) => {
         let additionalDamage = Math.floor(Math.random() * 6) + 1;
         let criticalChance = 0.05;
 
+        console.log('=============== DAMAGE CALCULATIONS ===============');
+        console.log('=============== INITIAL ===============');
         console.log('Initial base damage:', baseDamage);
         console.log('Initial critical chance:', criticalChance);
-        console.log('Additional damage:', additionalDamage);
+        console.log('=============== RANDOMIZED BONUS ===============');
+        console.log('Additional randomized damage:', additionalDamage);
 
         const highestBaseDamageItem = boughtItems
             .filter(item => item.category === "Base Damage")
-            .reduce((max, item) => item.effect > max.effect ? item : max, { effect: 0 });
+            .reduce((max, item) => item.effect > max.effect ? item : max, {effect: 0});
 
         if (highestBaseDamageItem.effect > 0) {
             baseDamage += highestBaseDamageItem.effect;
@@ -229,7 +313,7 @@ const Daily = ({ navigation }) => {
                 criticalChance += item.effect;
             }
         });
-
+        console.log('=============== ITEMS ===============');
         console.log('Base damage after item effects:', baseDamage);
         console.log('Critical chance after item effects:', criticalChance);
 
@@ -247,16 +331,16 @@ const Daily = ({ navigation }) => {
         const intensity = criticalHit ? 20 : 10;
         const duration = criticalHit ? 150 : 100;
         Animated.sequence([
-            Animated.timing(shakeAnimation, { toValue: intensity, duration, useNativeDriver: true }),
-            Animated.timing(shakeAnimation, { toValue: -intensity, duration, useNativeDriver: true }),
-            Animated.timing(shakeAnimation, { toValue: intensity, duration, useNativeDriver: true }),
-            Animated.timing(shakeAnimation, { toValue: 0, duration, useNativeDriver: true })
+            Animated.timing(shakeAnimation, {toValue: intensity, duration, useNativeDriver: true}),
+            Animated.timing(shakeAnimation, {toValue: -intensity, duration, useNativeDriver: true}),
+            Animated.timing(shakeAnimation, {toValue: intensity, duration, useNativeDriver: true}),
+            Animated.timing(shakeAnimation, {toValue: 0, duration, useNativeDriver: true})
         ]).start();
 
         const soundFile = criticalHit ? require('../assets/sfx/criticalHit.wav') : require('../assets/sfx/hit.wav');
 
         if (soundFile) {
-            const { sound } = await Audio.Sound.createAsync(soundFile);
+            const {sound} = await Audio.Sound.createAsync(soundFile);
             await sound.playAsync();
         }
 
@@ -264,7 +348,6 @@ const Daily = ({ navigation }) => {
             setEnemyDefeated(true);
         }
     };
-
 
     const handleVictoryButtonPress = async (screenName) => {
         try {
