@@ -43,7 +43,7 @@ const Daily = ({navigation}) => {
 
                     await victoryMusic.current.loadAsync(require("../assets/music/victory.mp3"));
                 } catch (error) {
-                    console.error("Failed to load the music", error);
+                    // console.error("Failed to load the music", error);
                 }
             };
 
@@ -57,7 +57,7 @@ const Daily = ({navigation}) => {
                         victoryMusic.current.unloadAsync()
                     ]);
                 } catch (error) {
-                    console.error("Failed to stop the music", error);
+                    // console.error("Failed to stop the music", error);
                 }
             };
 
@@ -427,10 +427,15 @@ const Daily = ({navigation}) => {
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>{enemy.name} Defeated!</Text>
                         <Text style={styles.modalSubtitle}>
-                            You've gained {Math.ceil(isCustomMode ? enemy.reward / 3 : enemy.reward)} gold.
+                            You've gained{' '}
+                            <Text style={{ fontWeight: 'bold' }}>
+                                {Math.ceil(isCustomMode ? enemy.reward / 3 : enemy.reward)}
+                            </Text>
+                            {' '}gold.
                         </Text>
+                        <Image source={require('../assets/images/icons/treasure.jpg')} style={styles.modalImage} />
                         <TouchableOpacity onPress={() => handleVictoryButtonPress("index")} style={styles.doneButton}>
-                            <Text style={styles.doneButtonText}>Head Back</Text>
+                            <Text style={styles.doneButtonText}>Head Back!</Text>
                         </TouchableOpacity>
                     </View>
                 </Modal>

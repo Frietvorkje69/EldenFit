@@ -18,7 +18,7 @@ const Custom = () => {
                     await customMusic.current.playAsync();
                     await customMusic.current.setIsLoopingAsync(true);
                 } catch (error) {
-                    console.error("Failed to load the custom music", error);
+                    // console.error("Failed to load the custom music", error);
                 }
             };
 

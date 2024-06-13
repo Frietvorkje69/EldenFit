@@ -34,7 +34,7 @@ const Shop = () => {
                     await shopMusic.current.playAsync();
                     await shopMusic.current.setIsLoopingAsync(true);
                 } catch (error) {
-                    console.error("Failed to load the shop music", error);
+                    // console.error("Failed to load the shop music", error);
                 }
             };
 
@@ -43,7 +43,7 @@ const Shop = () => {
                     await shopMusic.current.stopAsync();
                     await shopMusic.current.unloadAsync();
                 } catch (error) {
-                    console.error("Failed to stop the shop music", error);
+                   // console.error("Failed to stop the shop music", error);
                 }
             };
 

@@ -19,7 +19,7 @@ export default function Index() {
             try {
                 await logoHitSound.current.loadAsync(require("../assets/sfx/logoHit.wav"));
             } catch (error) {
-                console.error("Failed to load the logo hit sound", error);
+                // console.error("Failed to load the logo hit sound", error);
             }
         };
         loadLogoHitSound();
@@ -28,7 +28,7 @@ export default function Index() {
             try {
                 await buttonSelectSound.current.loadAsync(require("../assets/sfx/buttonSelect.wav"));
             } catch (error) {
-                console.error("Failed to load the button select sound", error);
+                // console.error("Failed to load the button select sound", error);
             }
         };
         loadButtonSelectSound();
@@ -65,7 +65,7 @@ export default function Index() {
                 const goldValue = storedGold !== null ? parseInt(storedGold) : 0;
                 setGold(goldValue);
             } catch (error) {
-                console.error('Failed to load gold from storage:', error);
+                // console.error('Failed to load gold from storage:', error);
             }
         };
         loadGoldFromStorage();
@@ -90,7 +90,7 @@ export default function Index() {
                     await soundObject.current.playAsync();
                     await soundObject.current.setIsLoopingAsync(true);
                 } catch (error) {
-                    console.error("Failed to load the sound", error);
+                    // console.error("Failed to load the sound", error);
                 }
             };
 
@@ -99,7 +99,7 @@ export default function Index() {
                     await soundObject.current.stopAsync();
                     await soundObject.current.unloadAsync();
                 } catch (error) {
-                    console.error("Failed to stop the sound", error);
+                    // console.error("Failed to stop the sound", error);
                 }
             };
 
@@ -122,7 +122,7 @@ export default function Index() {
             await Haptics.selectionAsync();
             navigation.navigate(screenName);
         } catch (error) {
-            console.error("Failed to play the button select sound", error);
+            // console.error("Failed to play the button select sound", error);
         }
     };
 
