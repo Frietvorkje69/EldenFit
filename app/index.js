@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Index() {
     const [gold, setGold] = useState(0);
+    const [isDailyAvailable, setIsDailyAvailable] = useState(true);
     const rotateAnim = useRef(new Animated.Value(0)).current;
     const soundObject = useRef(new Audio.Sound());
     const logoHitSound = useRef(new Audio.Sound());
@@ -84,6 +85,30 @@ export default function Index() {
             };
             loadGoldFromStorage();
 
+            const checkDailyBeaten = async () => {
+                try {
+                    const storedDailyBeaten = await AsyncStorage.getItem('dailyBeaten');
+                    if (storedDailyBeaten) {
+                        const lastBeatenDate = new Date(storedDailyBeaten);
+                        const currentDate = new Date();
+
+                        // Compare only the date part, not the time
+                        const isSameDay = lastBeatenDate.toDateString() === currentDate.toDateString();
+
+                        if (isSameDay) {
+                            setIsDailyAvailable(false);
+                        } else {
+                            setIsDailyAvailable(true);
+                        }
+                    } else {
+                        setIsDailyAvailable(true);
+                    }
+                } catch (error) {
+                    console.error('Failed to load dailyBeaten from storage:', error);
+                }
+            };
+            checkDailyBeaten();
+
             const playMusic = async () => {
                 try {
                     await soundObject.current.loadAsync(require("../assets/music/main.mp3"));
@@ -154,9 +179,13 @@ export default function Index() {
                 />
             </TouchableOpacity>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => handleButtonPress("daily")}>
+                <TouchableOpacity
+                    style={[styles.button, !isDailyAvailable && styles.disabledButton]}
+                    onPress={() => handleButtonPress("daily")}
+                    disabled={!isDailyAvailable}
+                >
                     <Ionicons name="calendar-outline" size={24} color="white" style={styles.icon} />
-                    <Text style={styles.buttonText}>Daily Workout</Text>
+                    <Text style={styles.buttonText}>{isDailyAvailable ? "Daily Workout" : "Daily Beaten!"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => handleButtonPress("shop")}>
                     <Ionicons name="cart-outline" size={24} color="white" style={styles.icon} />
@@ -204,6 +233,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderWidth: 1,
         borderColor: "white",
+    },
+    disabledButton: {
+        backgroundColor: "gray",
     },
     buttonText: {
         color: "white",

@@ -5,7 +5,7 @@ import Modal from 'react-native-modal';
 import {Audio} from 'expo-av';
 import * as Haptics from "expo-haptics";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
-import HealthBar from './healthBar';
+import HealthBar from './components/healthBar';
 import exercises from './src/data/exercises.json';
 import enemies from './src/data/enemies.json';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -205,6 +205,11 @@ const Daily = ({navigation}) => {
                 }, 500);
 
                 setDisableMoves(true);
+
+                const currentDate = new Date().toISOString();
+                await AsyncStorage.setItem('dailyBeaten', currentDate);
+                console.log(currentDate)
+
                 await AsyncStorage.removeItem('fightState');
             }
         };
@@ -249,7 +254,7 @@ const Daily = ({navigation}) => {
                     await AsyncStorage.setItem('fightState', JSON.stringify(fightState));
                 }
             } catch (error) {
-                console.error('Failed to save fight state to storage:', error);
+                //console.error('Failed to save fight state to storage:', error);
             }
         };
 

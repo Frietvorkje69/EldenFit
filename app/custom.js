@@ -44,7 +44,7 @@ const Custom = () => {
             try {
                 await buttonSelectSound.current.loadAsync(require("../assets/sfx/buttonSelect.wav"));
             } catch (error) {
-                console.error("Failed to load the button select sound", error);
+                //console.error("Failed to load the button select sound", error);
             }
         };
 
