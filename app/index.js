@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
         borderColor: "white",
     },
     disabledButton: {
-        backgroundColor: "gray",
+        backgroundColor: "#400000",
     },
     buttonText: {
         color: "white",

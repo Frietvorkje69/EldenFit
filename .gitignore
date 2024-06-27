@@ -1,4 +1,5 @@
 node_modules/
+eas.json
 .expo/
 dist/
 npm-debug.*
