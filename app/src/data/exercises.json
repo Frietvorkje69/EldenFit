@@ -7,7 +7,8 @@
     "baseDamage": 10,
     "amount": 20,
     "difficulty": 1,
-    "caloriesBurned": 70
+    "caloriesBurned": 70,
+    "timer": 60
   },
   {
     "name": "Bench Dips",
@@ -17,7 +18,8 @@
     "baseDamage": 10,
     "amount": 15,
     "difficulty": 1,
-    "caloriesBurned": 60
+    "caloriesBurned": 60,
+    "timer": 45
   },
   {
     "name": "Diamond Push-ups",
@@ -27,7 +29,8 @@
     "baseDamage": 11,
     "amount": 12,
     "difficulty": 2,
-    "caloriesBurned": 65
+    "caloriesBurned": 65,
+    "timer": 40
   },
   {
     "name": "Plyometric Push-ups",
@@ -37,7 +40,8 @@
     "baseDamage": 12,
     "amount": 10,
     "difficulty": 3,
-    "caloriesBurned": 80
+    "caloriesBurned": 80,
+    "timer": 30
   },
   {
     "name": "Bodyweight Squats",
@@ -47,7 +51,8 @@
     "baseDamage": 10,
     "amount": 25,
     "difficulty": 1,
-    "caloriesBurned": 50
+    "caloriesBurned": 50,
+    "timer": 60
   },
   {
     "name": "Lunges",
@@ -57,7 +62,8 @@
     "baseDamage": 12,
     "amount": "15 per leg",
     "difficulty": 2,
-    "caloriesBurned": 90
+    "caloriesBurned": 90,
+    "timer": 60
   },
   {
     "name": "Mountain Climbers",
@@ -67,7 +73,8 @@
     "baseDamage": 11,
     "amount": 30,
     "difficulty": 2,
-    "caloriesBurned": 60
+    "caloriesBurned": 60,
+    "timer": 60
   },
   {
     "name": "Jump Squats",
@@ -77,7 +84,8 @@
     "baseDamage": 12,
     "amount": 12,
     "difficulty": 3,
-    "caloriesBurned": 100
+    "caloriesBurned": 100,
+    "timer": 40
   },
   {
     "name": "Superman",
@@ -87,7 +95,8 @@
     "baseDamage": 10,
     "amount": 20,
     "difficulty": 1,
-    "caloriesBurned": 50
+    "caloriesBurned": 50,
+    "timer": 60
   },
   {
     "name": "Bird Dog",
@@ -97,7 +106,8 @@
     "baseDamage": 10,
     "amount": "12 per side",
     "difficulty": 1,
-    "caloriesBurned": 40
+    "caloriesBurned": 40,
+    "timer": 50
   },
   {
     "name": "Plank",
@@ -107,7 +117,8 @@
     "baseDamage": 11,
     "amount": "60 seconds",
     "difficulty": 2,
-    "caloriesBurned": 45
+    "caloriesBurned": 45,
+    "timer": 60
   },
   {
     "name": "Reverse Snow Angels",
@@ -117,6 +128,7 @@
     "baseDamage": 12,
     "amount": 15,
     "difficulty": 2,
-    "caloriesBurned": 55
+    "caloriesBurned": 55,
+    "timer": 45
   }
 ]
