@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Global variable to track custom mode
 let isCustomMode = false;
+let totalCalories = 0;
 
 const Daily = ({navigation}) => {
     const [selectedExercises, setSelectedExercises] = useState([]);
@@ -28,6 +29,7 @@ const Daily = ({navigation}) => {
     const [disableMoves, setDisableMoves] = useState(false);
     const [gold, setGold] = useState(0);
     const [boughtItems, setBoughtItems] = useState([]);
+    const [exerciseTimer, setExerciseTimer] = useState(0);
     const buttonSelectSound = useRef(new Audio.Sound());
     const battleMusic = useRef(new Audio.Sound());
     const victoryMusic = useRef(new Audio.Sound());
@@ -148,9 +150,23 @@ const Daily = ({navigation}) => {
                 await AsyncStorage.removeItem('CustomMuscle');
             } else {
                 const muscleGroups = [...new Set(exercises.map(exercise => exercise.muscleGroup))];
-                selectedMuscleGroup = chooseRandomItem(muscleGroups);
+                let previousDaily = await AsyncStorage.getItem('previousDaily');
+
+                if (!previousDaily) {
+                    selectedMuscleGroup = chooseRandomItem(muscleGroups);
+                } else {
+                    const filteredMuscleGroups = muscleGroups.filter(group => group !== previousDaily);
+                    if (filteredMuscleGroups.length > 0) {
+                        selectedMuscleGroup = chooseRandomItem(filteredMuscleGroups);
+                    } else {
+                        selectedMuscleGroup = chooseRandomItem(muscleGroups);
+                    }
+                }
+
+                await AsyncStorage.setItem('previousDaily', selectedMuscleGroup);
             }
 
+            console.log(selectedMuscleGroup);
             setMuscleGroup(selectedMuscleGroup.charAt(0).toUpperCase() + selectedMuscleGroup.slice(1));
             const exercisesInGroup = exercises.filter(exercise => exercise.muscleGroup === selectedMuscleGroup);
 
@@ -205,12 +221,16 @@ const Daily = ({navigation}) => {
                 }, 500);
 
                 setDisableMoves(true);
+                if (!isCustomMode) {
 
-                const currentDate = new Date().toISOString();
-                await AsyncStorage.setItem('dailyBeaten', currentDate);
-                console.log(currentDate)
 
-                await AsyncStorage.removeItem('fightState');
+                    const currentDate = new Date().toISOString();
+                    await AsyncStorage.setItem('dailyBeaten', currentDate);
+                    console.log(currentDate)
+
+                    await AsyncStorage.removeItem('fightState');
+                }
+
             }
         };
 
@@ -290,11 +310,29 @@ const Daily = ({navigation}) => {
         }
         setCurrentExercise(exercise);
         setModalVisible(true);
+        setExerciseTimer(exercise.timer); // Initialize exercise timer
         Haptics.selectionAsync();
     };
 
+    // useEffect to handle exercise timer countdown
+    useEffect(() => {
+        let timerInterval;
+        if (isModalVisible && currentExercise) {
+            if (exerciseTimer > 0) {
+                timerInterval = setInterval(() => {
+                    setExerciseTimer(prevTimer => prevTimer - 1);
+                }, 1000);
+            }
+        } else {
+            setExerciseTimer(0); // Reset exercise timer when modal is closed
+        }
+
+        return () => clearInterval(timerInterval);
+    }, [isModalVisible, currentExercise, exerciseTimer]);
+
     const handleDonePress = async () => {
         let baseDamage = currentExercise.baseDamage * 2; // REMOVE ( * 2 ) LATER
+        totalCalories = totalCalories + currentExercise.caloriesBurned;
         let additionalDamage = Math.floor(Math.random() * 6) + 1;
         let criticalChance = 0.05;
 
@@ -331,6 +369,7 @@ const Daily = ({navigation}) => {
         setEnemyHealth(prevHealth => Math.max(prevHealth - totalDamage, 0));
         setDamageText(`-${totalDamage}${criticalHit ? '!!' : '!'}`);
         setModalVisible(false);
+        setExerciseTimer(0); // Reset exercise timer after done
         Haptics.selectionAsync();
 
         const intensity = criticalHit ? 20 : 10;
@@ -419,8 +458,10 @@ const Daily = ({navigation}) => {
                         <>
                             <Text style={styles.modalTitle}>{currentExercise.name}</Text>
                             <Text style={styles.modalSubtitle}>Reps: {currentExercise.amount}</Text>
-                            <Image source={{uri: currentExercise.image}} style={styles.modalImage}/>
-                            <TouchableOpacity onPress={handleDonePress} style={styles.doneButton}>
+                            <Text style={styles.modalSubtitle}>Calories: {currentExercise.caloriesBurned}</Text>
+                            <Text style={styles.modalSubtitle}>Time Remaining: {exerciseTimer} seconds</Text>
+                            <Image source={{ uri: currentExercise.image }} style={styles.modalImage} />
+                            <TouchableOpacity onPress={handleDonePress} disabled={exerciseTimer > 0} style={styles.doneButton}>
                                 <Text style={styles.doneButtonText}>Done</Text>
                             </TouchableOpacity>
                         </>
@@ -432,13 +473,20 @@ const Daily = ({navigation}) => {
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>{enemy.name} Defeated!</Text>
                         <Text style={styles.modalSubtitle}>
+                            You've burned{' '}
+                            <Text style={{fontWeight: 'bold'}}>
+                                {totalCalories}
+                            </Text>
+                            {' '}calories!
+                        </Text>
+                        <Text style={styles.modalSubtitle}>
                             You've gained{' '}
-                            <Text style={{ fontWeight: 'bold' }}>
+                            <Text style={{fontWeight: 'bold'}}>
                                 {Math.ceil(isCustomMode ? enemy.reward / 3 : enemy.reward)}
                             </Text>
                             {' '}gold.
                         </Text>
-                        <Image source={require('../assets/images/icons/treasure.jpg')} style={styles.modalImage} />
+                        <Image source={require('../assets/images/icons/treasure.jpg')} style={styles.modalImage}/>
                         <TouchableOpacity onPress={() => handleVictoryButtonPress("index")} style={styles.doneButton}>
                             <Text style={styles.doneButtonText}>Head Back!</Text>
                         </TouchableOpacity>
