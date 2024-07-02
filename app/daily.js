@@ -243,8 +243,14 @@ const Daily = ({navigation}) => {
 
 
                     const currentDate = new Date().toISOString();
+                    let previousWorkouts = await AsyncStorage.getItem('previousWorkouts');
+
+                    previousWorkouts = previousWorkouts ? JSON.parse(previousWorkouts) : [];
+
+                    previousWorkouts.push(currentDate);
+
+                    await AsyncStorage.setItem('previousWorkouts', JSON.stringify(previousWorkouts));
                     await AsyncStorage.setItem('dailyBeaten', currentDate);
-                    console.log(currentDate)
 
                     await AsyncStorage.removeItem('fightState');
                 }

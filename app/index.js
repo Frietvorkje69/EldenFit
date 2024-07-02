@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Animated, Easing } from "react-native";
 import { Audio } from "expo-av";
 import * as Haptics from "expo-haptics";
@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Index() {
     const [gold, setGold] = useState(0);
     const [isDailyAvailable, setIsDailyAvailable] = useState(true);
+    const [dailyStreak, setDailyStreak] = useState([]);
     const rotateAnim = useRef(new Animated.Value(0)).current;
     const soundObject = useRef(new Audio.Sound());
     const logoHitSound = useRef(new Audio.Sound());
@@ -121,6 +122,28 @@ export default function Index() {
             };
             checkDailyBeaten();
 
+            const loadDailyStreak = async () => {
+                try {
+                    let previousWorkouts = await AsyncStorage.getItem('previousWorkouts');
+                    previousWorkouts = previousWorkouts ? JSON.parse(previousWorkouts) : [];
+
+                    const currentDate = new Date();
+                    const updatedStreak = previousWorkouts.filter(workoutDate => {
+                        const date = new Date(workoutDate);
+                        const diffDays = Math.floor((currentDate - date) / (1000 * 60 * 60 * 24));
+                        return diffDays <= 6;
+                    });
+
+                    // Update streak in local storage
+                    await AsyncStorage.setItem('previousWorkouts', JSON.stringify(updatedStreak));
+
+                    setDailyStreak(updatedStreak);
+                } catch (error) {
+                    console.error('Failed to load daily streak from storage:', error);
+                }
+            };
+            loadDailyStreak();
+
             const playMusic = async () => {
                 try {
                     await soundObject.current.loadAsync(require("../assets/music/main.mp3"));
@@ -182,6 +205,9 @@ export default function Index() {
         }
     };
 
+    const currentStreak = dailyStreak.length;
+    const rewardText = currentStreak >= 6 ? "Gold is now 2x!!" : currentStreak >= 3 ? "Gold is now 1.5x!" : "";
+
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={handleLogoPress}>
@@ -208,6 +234,21 @@ export default function Index() {
                     <Ionicons name="settings-outline" size={24} color="white" style={styles.icon} />
                     <Text style={styles.buttonText}>Custom</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={styles.streakInfoContainer}>
+                <Text style={styles.streakText}>Week 1 Streak: {currentStreak} day(s)</Text>
+                <Text style={styles.rewardText}>{rewardText}</Text>
+                <View style={styles.streakContainer}>
+                    {Array.from({ length: 7 }).map((_, index) => (
+                        <View
+                            key={index}
+                            style={[
+                                styles.streakCircle,
+                                dailyStreak.length > index && styles.filledStreakCircle,
+                            ]}
+                        />
+                    ))}
+                </View>
             </View>
             <View style={styles.footerContainer}>
                 <View style={styles.goldContainer}>
@@ -258,6 +299,34 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 10,
+    },
+    streakInfoContainer: {
+        alignItems: "center",
+        marginVertical: 20,
+    },
+    streakText: {
+        color: "white",
+        fontSize: 18,
+        marginBottom: 5,
+    },
+    rewardText: {
+        color: "white",
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    streakContainer: {
+        flexDirection: "row",
+        marginBottom: 20,
+    },
+    streakCircle: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: "#333",
+        margin: 5,
+    },
+    filledStreakCircle: {
+        backgroundColor: "#51a3a6",
     },
     footerContainer: {
         position: 'absolute',
