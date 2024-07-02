@@ -30,6 +30,7 @@ const Daily = ({navigation}) => {
     const [gold, setGold] = useState(0);
     const [boughtItems, setBoughtItems] = useState([]);
     const [exerciseTimer, setExerciseTimer] = useState(0);
+    const [timerStarted, setTimerStarted] = useState(false);
     const buttonSelectSound = useRef(new Audio.Sound());
     const battleMusic = useRef(new Audio.Sound());
     const victoryMusic = useRef(new Audio.Sound());
@@ -311,24 +312,32 @@ const Daily = ({navigation}) => {
         setCurrentExercise(exercise);
         setModalVisible(true);
         setExerciseTimer(exercise.timer); // Initialize exercise timer
+        setTimerStarted(false); // Reset timerStarted state
         Haptics.selectionAsync();
     };
 
-    // useEffect to handle exercise timer countdown
+
+    const handleStartPress = () => {
+        setTimerStarted(true);
+    };
+
+
+
     useEffect(() => {
         let timerInterval;
-        if (isModalVisible && currentExercise) {
+        if (isModalVisible && currentExercise && timerStarted) {
             if (exerciseTimer > 0) {
                 timerInterval = setInterval(() => {
                     setExerciseTimer(prevTimer => prevTimer - 1);
                 }, 1000);
             }
         } else {
-            setExerciseTimer(0); // Reset exercise timer when modal is closed
+            setExerciseTimer(currentExercise ? currentExercise.timer : 0); // Reset exercise timer when modal is closed
         }
 
         return () => clearInterval(timerInterval);
-    }, [isModalVisible, currentExercise, exerciseTimer]);
+    }, [isModalVisible, currentExercise, exerciseTimer, timerStarted]);
+
 
     const handleDonePress = async () => {
         let baseDamage = currentExercise.baseDamage;
@@ -461,9 +470,15 @@ const Daily = ({navigation}) => {
                             <Text style={styles.modalSubtitle}>Calories: {currentExercise.caloriesBurned}</Text>
                             <Text style={styles.modalSubtitle}>Time Remaining: {exerciseTimer} seconds</Text>
                             <Image source={{ uri: currentExercise.image }} style={styles.modalImage} />
-                            <TouchableOpacity onPress={handleDonePress} disabled={exerciseTimer > 0} style={styles.doneButton}>
-                                <Text style={styles.doneButtonText}>Done</Text>
-                            </TouchableOpacity>
+                            {timerStarted ? (
+                                <TouchableOpacity onPress={handleDonePress} disabled={exerciseTimer > 0} style={styles.doneButton}>
+                                    <Text style={styles.doneButtonText}>Done</Text>
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity onPress={handleStartPress} style={styles.startButton}>
+                                    <Text style={styles.startButtonText}>Start!</Text>
+                                </TouchableOpacity>
+                            )}
                         </>
                     )}
                 </View>
@@ -626,6 +641,16 @@ const styles = StyleSheet.create({
     },
     backButtonText: {
         color: 'blue',
+        fontSize: 16,
+    },
+    startButton: {
+        backgroundColor: 'blue',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+    },
+    startButtonText: {
+        color: 'white',
         fontSize: 16,
     },
 });
