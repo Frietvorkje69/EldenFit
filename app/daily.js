@@ -6,13 +6,14 @@ import {Audio} from 'expo-av';
 import * as Haptics from "expo-haptics";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import HealthBar from './components/healthBar';
-import exercises from './src/data/exercises.json';
+import exercises from './src/data/exercisesShort.json'; // change back
 import enemies from './src/data/enemies.json';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Global variable to track custom mode
 let isCustomMode = false;
 let totalCalories = 0;
+let currentPlayerLevel = 0;
 
 const Daily = ({navigation}) => {
     const [selectedExercises, setSelectedExercises] = useState([]);
@@ -71,6 +72,21 @@ const Daily = ({navigation}) => {
             };
         }, [])
     );
+
+    useEffect(() => {
+        const loadPlayerLevel = async () => {
+            try {
+                const storedPlayerLevel = await AsyncStorage.getItem('playerLevel');
+                if (storedPlayerLevel !== null) {
+                    currentPlayerLevel = storedPlayerLevel;
+                }
+            } catch (error) {
+                console.error('Failed to load player level from storage:', error);
+            }
+        };
+
+        loadPlayerLevel();
+    }, []);
 
     useEffect(() => {
         const loadBoughtItemsFromStorage = async () => {
@@ -179,7 +195,8 @@ const Daily = ({navigation}) => {
             setSelectedExercises(selectedExercises);
 
             const randomEnemy = chooseRandomItem(enemies);
-            const enemyHP = randomEnemy.health;
+            const enemyHP = randomEnemy.health + (currentPlayerLevel * 20)
+            console.log(currentPlayerLevel)
             setEnemy(randomEnemy);
             setEnemyHealth(enemyHP);
             setEnemyMaxHealth(enemyHP);

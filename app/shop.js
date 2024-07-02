@@ -43,7 +43,7 @@ const Shop = () => {
                     await shopMusic.current.stopAsync();
                     await shopMusic.current.unloadAsync();
                 } catch (error) {
-                   // console.error("Failed to stop the shop music", error);
+                    // console.error("Failed to stop the shop music", error);
                 }
             };
 
@@ -95,7 +95,7 @@ const Shop = () => {
             return acc;
         }, {});
         setCategorizedItems(categories);
-        
+
         setDialogueText(getRandomDialogue());
     }, []);
 
@@ -151,6 +151,11 @@ const Shop = () => {
             const updatedBoughtItems = [...boughtItems, selectedItem];
             setBoughtItems(updatedBoughtItems);
             await AsyncStorage.setItem('boughtItems', JSON.stringify(updatedBoughtItems));
+
+            const storedPlayerLevel = await AsyncStorage.getItem('playerLevel');
+            const currentLevel = storedPlayerLevel ? parseInt(storedPlayerLevel) : 0;
+            const updatedLevel = currentLevel + selectedItem.playerLevel;
+            await AsyncStorage.setItem('playerLevel', updatedLevel.toString());
 
             setModalVisible(false);
         }

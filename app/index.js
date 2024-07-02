@@ -166,6 +166,7 @@ export default function Index() {
     const handleLogoPress = async () => {
         try {
             await logoHitSound.current.replayAsync();
+            await AsyncStorage.setItem('gold', '2000');
         } catch (error) {
             console.error("Failed to play the logo hit sound", error);
         }

@@ -3,57 +3,57 @@
     "name": "Green Slime",
     "image": "https://i.imgur.com/iCz4SQR.png",
     "health": 100,
-    "critRate": 0.05,
     "biome": "https://i.imgur.com/2OUTPY2.png",
-    "reward": 80
+    "reward": 80,
+    "playerLevel": 0
   },
   {
     "name": "Cave Bat",
     "image": "https://i.imgur.com/3LKVusd.png",
     "health": 110,
-    "critRate": 0.15,
     "biome": "https://i.imgur.com/G9rjQtE.png",
-    "reward": 100
+    "reward": 100,
+    "playerLevel": 0
   },
   {
     "name": "Forest Wolf",
     "image": "https://i.imgur.com/YMQBECv.png",
     "health": 120,
-    "critRate": 0.10,
     "biome": "https://i.imgur.com/ieb2L4S.png",
-    "reward": 110
+    "reward": 110,
+    "playerLevel": 0
   },
   {
     "name": "Giant Rat",
     "image": "https://i.imgur.com/VtXQd6w.png",
     "health": 125,
-    "critRate": 0.12,
     "biome": "https://i.imgur.com/QhpULBz.png",
-    "reward": 120
+    "reward": 120,
+    "playerLevel": 0
   },
   {
     "name": "Skeleton Warrior",
     "image": "https://i.imgur.com/MAosBxc.png",
     "health": 130,
-    "critRate": 0.08,
     "biome": "https://i.imgur.com/2AShJuQ.png",
-    "reward": 130
+    "reward": 130,
+    "playerLevel": 0
   },
   {
     "name": "Baby Dragon",
     "image": "https://i.imgur.com/Kg52R4H.png",
     "health": 230,
-    "critRate": 0.08,
     "biome": "https://i.imgur.com/2AShJuQ.png",
-    "reward": 180
+    "reward": 180,
+    "playerLevel": 2
   },
   {
     "name": "Living Armour",
     "image": "https://i.imgur.com/BQFX6p7.png",
     "health": 170,
-    "critRate": 0.08,
     "biome": "https://i.imgur.com/2AShJuQ.png",
-    "reward": 150
+    "reward": 150,
+    "playerLevel": 1
   },
   {
     "name": "Forest Goblin",
@@ -61,22 +61,23 @@
     "health": 130,
     "critRate": 0.08,
     "biome": "https://i.imgur.com/ieb2L4S.png",
-    "reward": 130
+    "reward": 130,
+    "playerLevel": 0
   },
   {
     "name": "Smushi",
     "image": "https://i.imgur.com/RThIQ7D.png",
     "health": 100,
-    "critRate": 0.08,
     "biome": "https://i.imgur.com/X1Dk87S.png",
-    "reward": 90
+    "reward": 90,
+    "playerLevel": 0
   },
   {
     "name": "Arch Wizard",
     "image": "https://i.imgur.com/jwO8TZi.png",
     "health": 200,
-    "critRate": 0.08,
     "biome": "https://i.imgur.com/G9rjQtE.png",
-    "reward": 160
+    "reward": 160,
+    "playerLevel": 2
   }
 ]
