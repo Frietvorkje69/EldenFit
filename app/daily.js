@@ -331,7 +331,7 @@ const Daily = ({navigation}) => {
     }, [isModalVisible, currentExercise, exerciseTimer]);
 
     const handleDonePress = async () => {
-        let baseDamage = currentExercise.baseDamage * 2; // REMOVE ( * 2 ) LATER
+        let baseDamage = currentExercise.baseDamage;
         totalCalories = totalCalories + currentExercise.caloriesBurned;
         let additionalDamage = Math.floor(Math.random() * 6) + 1;
         let criticalChance = 0.05;
@@ -369,7 +369,7 @@ const Daily = ({navigation}) => {
         setEnemyHealth(prevHealth => Math.max(prevHealth - totalDamage, 0));
         setDamageText(`-${totalDamage}${criticalHit ? '!!' : '!'}`);
         setModalVisible(false);
-        setExerciseTimer(0); // Reset exercise timer after done
+        setExerciseTimer(0);
         Haptics.selectionAsync();
 
         const intensity = criticalHit ? 20 : 10;

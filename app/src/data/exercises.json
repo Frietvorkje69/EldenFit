@@ -2,7 +2,7 @@
   {
     "name": "Push-ups",
     "description": "Strengthens chest, shoulders, and triceps",
-    "image": "https://www.fitnesseducation.edu.au/wp-content/uploads/2017/03/Pushups.jpg",
+    "image": "https://cdn.jefit.com/assets/img/exercises/gifs/47.gif",
     "muscleGroup": "chest",
     "baseDamage": 10,
     "amount": 20,
@@ -13,7 +13,7 @@
   {
     "name": "Bench Dips",
     "description": "Targets triceps and chest",
-    "image": "https://focusedonfit.com/s/uploads/2014/01/Bench-Dips-2.jpg",
+    "image": "https://hips.hearstapps.com/hmg-prod/images/766/fitgif-friday-bench-dip-slider-thumbnail-override-1495202401.gif",
     "muscleGroup": "chest",
     "baseDamage": 10,
     "amount": 15,
@@ -24,7 +24,7 @@
   {
     "name": "Diamond Push-ups",
     "description": "Focuses on triceps and inner chest",
-    "image": "https://media1.popsugar-assets.com/files/thumbor/mELhQcUxOK5KO0IOFKay4GNsVbU/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2014/09/19/980/n/1922729/d39a48c6b467b940_diamoncollage/i/Diamond-Push-Up.jpg",
+    "image": "https://hips.hearstapps.com/menshealth-uk/main/assets/diamond.gif",
     "muscleGroup": "chest",
     "baseDamage": 11,
     "amount": 12,
@@ -35,9 +35,9 @@
   {
     "name": "Plyometric Push-ups",
     "description": "Explosive push-up variation for power",
-    "image": "https://www.inspireusafoundation.org/wp-content/uploads/2023/06/plyo-push-up-muscles-1024x283.png",
+    "image": "https://i.pinimg.com/originals/0f/34/3e/0f343e5f49ee783888500700e162f631.gif",
     "muscleGroup": "chest",
-    "baseDamage": 12,
+    "baseDamage": 16,
     "amount": 10,
     "difficulty": 3,
     "caloriesBurned": 80,
@@ -46,7 +46,7 @@
   {
     "name": "Bodyweight Squats",
     "description": "Strengthens legs and core",
-    "image": "https://stephenmoon.com/wp-content/uploads/2021/05/basic-bodyweight-squat-exercise-3.jpg",
+    "image": "https://i.pinimg.com/originals/6f/7d/d2/6f7dd23780de40e7012c736c54700c08.gif",
     "muscleGroup": "legs",
     "baseDamage": 10,
     "amount": 25,
@@ -57,7 +57,7 @@
   {
     "name": "Lunges",
     "description": "Strengthens legs and improves balance",
-    "image": "https://static.vecteezy.com/system/resources/thumbnails/005/580/040/small/woman-doing-front-and-back-lunges-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+    "image": "https://hips.hearstapps.com/hmg-prod/images/766/fitgif-friday-reverse-lunge-with-pulse-slider-thumbnail-override-1504017362.gif",
     "muscleGroup": "legs",
     "baseDamage": 12,
     "amount": "15 per leg",
@@ -68,7 +68,7 @@
   {
     "name": "Mountain Climbers",
     "description": "Cardiovascular and lower body workout",
-    "image": "https://cdn.mos.cms.futurecdn.net/PTedSPRsVdpujUm3hvhPa6-320-80.jpg",
+    "image": "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/08/mountainclimberrunning-1472061754.gif",
     "muscleGroup": "legs",
     "baseDamage": 11,
     "amount": 30,
@@ -79,7 +79,7 @@
   {
     "name": "Jump Squats",
     "description": "Explosive squat variation for power",
-    "image": "https://t4.ftcdn.net/jpg/04/62/86/57/360_F_462865716_1cqXVFMrgHECtM4pxvQ4c8tVvjPKunP6.jpg",
+    "image": "https://media1.popsugar-assets.com/files/thumbor/_08z9oVDWdgqyNiFDq4a1GNZE4c/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2021/08/20/694/n/1922729/177a7e1092867a90_squatjump/i/Squat-Jump.GIF",
     "muscleGroup": "legs",
     "baseDamage": 12,
     "amount": 12,
@@ -90,7 +90,7 @@
   {
     "name": "Superman",
     "description": "Strengthens lower back and core",
-    "image": "https://assets.clevelandclinic.org/transform/6d74c99e-e1fd-4a6d-be40-fa4c653ab4a5/how2-supermanEx-1286022887_770x533_jpg",
+    "image": "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/08/supermant-1472154358.gif",
     "muscleGroup": "back",
     "baseDamage": 10,
     "amount": 20,
@@ -101,7 +101,7 @@
   {
     "name": "Bird Dog",
     "description": "Improves stability and strengthens back muscles",
-    "image": "https://static.vecteezy.com/system/resources/previews/008/573/017/original/man-doing-bird-dog-exercise-alternating-reach-and-kickbacks-posture-for-six-pack-flat-illustration-isolated-on-white-background-vector.jpg",
+    "image": "https://media.self.com/photos/61dc76cc1b1ab0d0752c928e/master/w_1600%2Cc_limit/Gail-bird-dog-crunch.gif",
     "muscleGroup": "back",
     "baseDamage": 10,
     "amount": "12 per side",
@@ -112,7 +112,7 @@
   {
     "name": "Plank",
     "description": "Core stabilization exercise",
-    "image": "https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2020/03/Indian-Male-Performing-Plank-In-Living-Room-Home-Workout.jpg?quality=86&strip=all",
+    "image": "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/plank-1457045584.gif?crop=1xw:1xh;center,top&resize=640:*",
     "muscleGroup": "back",
     "baseDamage": 11,
     "amount": "60 seconds",
@@ -123,7 +123,7 @@
   {
     "name": "Reverse Snow Angels",
     "description": "Targets upper back and shoulder muscles",
-    "image": "https://cdn.shopify.com/s/files/1/1585/6091/files/reverse_snow_angel_copia.jpg?v=1586407172",
+    "image": "https://cdn.shopify.com/s/files/1/0250/0362/2496/files/1820.gif?v=1645004182",
     "muscleGroup": "back",
     "baseDamage": 12,
     "amount": 15,

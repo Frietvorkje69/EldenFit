@@ -24,7 +24,8 @@
     "effect": 0.025,
     "stackable": true,
     "category": "Critical Rate",
-    "price": 450
+    "price": 450,
+    "playerLevel": 1
   },
 
 
@@ -36,7 +37,8 @@
     "effect": 3,
     "stackable": false,
     "category": "Base Damage",
-    "price": 110
+    "price": 110,
+    "playerLevel": 1
   },
   {
     "name": "Ancient Sword",
@@ -45,7 +47,8 @@
     "effect": 5,
     "stackable": false,
     "category": "Base Damage",
-    "price": 200
+    "price": 200,
+    "playerLevel": 2
   },
   {
     "name": "Moonlit Sword",
@@ -54,13 +57,14 @@
     "effect": 10,
     "stackable": false,
     "category": "Base Damage",
-    "price": 350
+    "price": 350,
+    "playerLevel": 3
   },
 
   {
     "name": "Clap Push-ups",
     "description": "An advanced push-up variation with a clap for explosive power!",
-    "image": "https://www.muscleandfitness.com/wp-content/uploads/2018/04/1109-clap-pushup.jpg?quality=86&strip=all",
+    "image": "https://qph.cf2.quoracdn.net/main-qimg-508cffc38a0ab1179d2b8b069d54cc92",
     "muscleGroup": "chest",
     "baseDamage": 20,
     "amount": 8,
@@ -73,7 +77,7 @@
   {
     "name": "Pistol Squats",
     "description": "A challenging single-leg squat that builds strength, balance, and power.",
-    "image": "https://miro.medium.com/v2/resize:fit:1160/0*_rmlsOFO5_V6TnSB.jpg",
+    "image": "https://i.pinimg.com/originals/46/1d/3d/461d3d9c4d7f7ecba4ac62bbc5115bd9.gif",
     "muscleGroup": "legs",
     "baseDamage": 20,
     "amount": 8,
@@ -86,7 +90,7 @@
   {
     "name": "Dragon Flag",
     "description": "A high-intensity core and back exercise for maximum strength and stability.",
-    "image": "https://s3.amazonaws.com/prod.skimble/assets/1001414/image_iphone.jpg",
+    "image": "https://i.pinimg.com/originals/99/6b/40/996b40d019897d7a7eda1b830a790ee0.gif",
     "muscleGroup": "back",
     "baseDamage": 20,
     "amount": 10,

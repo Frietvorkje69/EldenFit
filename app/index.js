@@ -70,6 +70,18 @@ export default function Index() {
             }
         };
         loadGoldFromStorage();
+
+        const initializePlayerLevel = async () => {
+            try {
+                const storedPlayerLevel = await AsyncStorage.getItem('playerLevel');
+                if (storedPlayerLevel === null) {
+                    await AsyncStorage.setItem('playerLevel', '0');
+                }
+            } catch (error) {
+                console.error('Failed to initialize player level in storage:', error);
+            }
+        };
+        initializePlayerLevel();
     }, []);
 
     useFocusEffect(
