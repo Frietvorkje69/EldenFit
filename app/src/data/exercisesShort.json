@@ -7,8 +7,8 @@
     "baseDamage": 10,
     "amount": 20,
     "difficulty": 1,
-    "caloriesBurned": 70,
-    "timer": 3
+    "caloriesBurned": 20,
+    "timer": 2
   },
   {
     "name": "Bench Dips",
@@ -18,8 +18,8 @@
     "baseDamage": 10,
     "amount": 15,
     "difficulty": 1,
-    "caloriesBurned": 60,
-    "timer": 3
+    "caloriesBurned": 45,
+    "timer": 2
   },
   {
     "name": "Diamond Push-ups",
@@ -29,8 +29,8 @@
     "baseDamage": 11,
     "amount": 12,
     "difficulty": 2,
-    "caloriesBurned": 65,
-    "timer": 3
+    "caloriesBurned": 36,
+    "timer": 2
   },
   {
     "name": "Plyometric Push-ups",
@@ -40,8 +40,8 @@
     "baseDamage": 16,
     "amount": 10,
     "difficulty": 3,
-    "caloriesBurned": 80,
-    "timer": 3
+    "caloriesBurned": 60,
+    "timer": 2
   },
   {
     "name": "Bodyweight Squats",
@@ -51,8 +51,8 @@
     "baseDamage": 10,
     "amount": 25,
     "difficulty": 1,
-    "caloriesBurned": 50,
-    "timer": 3
+    "caloriesBurned": 20,
+    "timer": 2
   },
   {
     "name": "Lunges",
@@ -62,8 +62,8 @@
     "baseDamage": 12,
     "amount": "15 per leg",
     "difficulty": 2,
-    "caloriesBurned": 90,
-    "timer": 3
+    "caloriesBurned": 20,
+    "timer": 2
   },
   {
     "name": "Mountain Climbers",
@@ -73,8 +73,8 @@
     "baseDamage": 11,
     "amount": 30,
     "difficulty": 2,
-    "caloriesBurned": 60,
-    "timer": 3
+    "caloriesBurned": 20,
+    "timer": 2
   },
   {
     "name": "Jump Squats",
@@ -84,8 +84,8 @@
     "baseDamage": 12,
     "amount": 12,
     "difficulty": 3,
-    "caloriesBurned": 100,
-    "timer": 3
+    "caloriesBurned": 22,
+    "timer": 2
   },
   {
     "name": "Superman",
@@ -95,8 +95,8 @@
     "baseDamage": 10,
     "amount": 20,
     "difficulty": 1,
-    "caloriesBurned": 50,
-    "timer": 3
+    "caloriesBurned": 10,
+    "timer": 2
   },
   {
     "name": "Bird Dog",
@@ -106,8 +106,8 @@
     "baseDamage": 10,
     "amount": "12 per side",
     "difficulty": 1,
-    "caloriesBurned": 40,
-    "timer": 3
+    "caloriesBurned": 12,
+    "timer": 2
   },
   {
     "name": "Plank",
@@ -115,10 +115,10 @@
     "image": "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/plank-1457045584.gif?crop=1xw:1xh;center,top&resize=640:*",
     "muscleGroup": "back",
     "baseDamage": 11,
-    "amount": "60 seconds",
+    "amount": "1 time",
     "difficulty": 2,
-    "caloriesBurned": 45,
-    "timer": 3
+    "caloriesBurned": 13,
+    "timer": 2
   },
   {
     "name": "Reverse Snow Angels",
@@ -128,7 +128,8 @@
     "baseDamage": 12,
     "amount": 15,
     "difficulty": 2,
-    "caloriesBurned": 55,
-    "timer": 3
+    "caloriesBurned": 8,
+    "timer": 2
   }
 ]
+

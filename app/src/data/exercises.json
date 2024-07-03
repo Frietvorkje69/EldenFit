@@ -7,7 +7,7 @@
     "baseDamage": 10,
     "amount": 20,
     "difficulty": 1,
-    "caloriesBurned": 70,
+    "caloriesBurned": 20,
     "timer": 60
   },
   {
@@ -18,7 +18,7 @@
     "baseDamage": 10,
     "amount": 15,
     "difficulty": 1,
-    "caloriesBurned": 60,
+    "caloriesBurned": 45,
     "timer": 45
   },
   {
@@ -29,7 +29,7 @@
     "baseDamage": 11,
     "amount": 12,
     "difficulty": 2,
-    "caloriesBurned": 65,
+    "caloriesBurned": 36,
     "timer": 40
   },
   {
@@ -40,7 +40,7 @@
     "baseDamage": 16,
     "amount": 10,
     "difficulty": 3,
-    "caloriesBurned": 80,
+    "caloriesBurned": 60,
     "timer": 30
   },
   {
@@ -51,7 +51,7 @@
     "baseDamage": 10,
     "amount": 25,
     "difficulty": 1,
-    "caloriesBurned": 50,
+    "caloriesBurned": 20,
     "timer": 60
   },
   {
@@ -62,7 +62,7 @@
     "baseDamage": 12,
     "amount": "15 per leg",
     "difficulty": 2,
-    "caloriesBurned": 90,
+    "caloriesBurned": 20,
     "timer": 60
   },
   {
@@ -73,7 +73,7 @@
     "baseDamage": 11,
     "amount": 30,
     "difficulty": 2,
-    "caloriesBurned": 60,
+    "caloriesBurned": 20,
     "timer": 60
   },
   {
@@ -84,7 +84,7 @@
     "baseDamage": 12,
     "amount": 12,
     "difficulty": 3,
-    "caloriesBurned": 100,
+    "caloriesBurned": 22,
     "timer": 40
   },
   {
@@ -95,7 +95,7 @@
     "baseDamage": 10,
     "amount": 20,
     "difficulty": 1,
-    "caloriesBurned": 50,
+    "caloriesBurned": 10,
     "timer": 60
   },
   {
@@ -106,7 +106,7 @@
     "baseDamage": 10,
     "amount": "12 per side",
     "difficulty": 1,
-    "caloriesBurned": 40,
+    "caloriesBurned": 12,
     "timer": 50
   },
   {
@@ -115,9 +115,9 @@
     "image": "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/plank-1457045584.gif?crop=1xw:1xh;center,top&resize=640:*",
     "muscleGroup": "back",
     "baseDamage": 11,
-    "amount": "60 seconds",
+    "amount": "1 time",
     "difficulty": 2,
-    "caloriesBurned": 45,
+    "caloriesBurned": 13,
     "timer": 60
   },
   {
@@ -128,7 +128,7 @@
     "baseDamage": 12,
     "amount": 15,
     "difficulty": 2,
-    "caloriesBurned": 55,
+    "caloriesBurned": 8,
     "timer": 45
   }
 ]

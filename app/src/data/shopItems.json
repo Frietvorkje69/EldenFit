@@ -71,7 +71,7 @@
     "difficulty": 4,
     "category": "Exercise",
     "price": 150,
-    "caloriesBurned": 80,
+    "caloriesBurned": 30,
     "timer": 30
   },
   {
@@ -84,7 +84,7 @@
     "difficulty": 4,
     "category": "Exercise",
     "price": 150,
-    "caloriesBurned": 70,
+    "caloriesBurned": 25,
     "timer": 40
   },
   {
@@ -97,7 +97,7 @@
     "difficulty": 4,
     "category": "Exercise",
     "price": 150,
-    "caloriesBurned": 90,
+    "caloriesBurned": 20,
     "timer": 60
   }
 ]
