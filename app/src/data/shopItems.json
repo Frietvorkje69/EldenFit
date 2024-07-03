@@ -6,7 +6,8 @@
     "effect": 0.01,
     "stackable": true,
     "category": "Critical Rate",
-    "price": 80
+    "price": 80,
+    "playerLevel": 0
   },
   {
     "name": "Critical Mastery II",
@@ -15,7 +16,8 @@
     "effect": 0.015,
     "stackable": true,
     "category": "Critical Rate",
-    "price": 210
+    "price": 210,
+    "playerLevel": 0
   },
   {
     "name": "Critical Mastery III",
@@ -72,7 +74,8 @@
     "category": "Exercise",
     "price": 150,
     "caloriesBurned": 30,
-    "timer": 30
+    "timer": 30,
+    "playerLevel": 0
   },
   {
     "name": "Pistol Squats",
@@ -85,7 +88,8 @@
     "category": "Exercise",
     "price": 150,
     "caloriesBurned": 25,
-    "timer": 40
+    "timer": 40,
+    "playerLevel": 0
   },
   {
     "name": "Dragon Flag",
@@ -98,6 +102,7 @@
     "category": "Exercise",
     "price": 150,
     "caloriesBurned": 20,
-    "timer": 60
+    "timer": 60,
+    "playerLevel": 0
   }
 ]

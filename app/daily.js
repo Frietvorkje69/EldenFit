@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Animated, Dimensions, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Animated, Dimensions, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View, Linking} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import Modal from 'react-native-modal';
 import {Audio} from 'expo-av';
@@ -345,6 +345,11 @@ const Daily = ({navigation}) => {
         setTimerStarted(true);
     };
 
+    const handleHelpPress = () => {
+        if (currentExercise && currentExercise.url) {
+            Linking.openURL(currentExercise.url);
+        }
+    };
 
 
     useEffect(() => {
@@ -516,6 +521,12 @@ const Daily = ({navigation}) => {
                             <Text style={styles.modalSubtitle}>Reps: {currentExercise.amount}</Text>
                             <Text style={styles.modalSubtitle}>Calories: {currentExercise.caloriesBurned}</Text>
                             <Text style={styles.modalSubtitle}>Time Remaining: {exerciseTimer} seconds</Text>
+                            {/* Conditionally render Help Button based on timerStarted */}
+                            {!timerStarted && (
+                                <TouchableOpacity onPress={handleHelpPress} style={styles.helpButton}>
+                                    <Ionicons name="help-circle-outline" size={40} color="black" />
+                                </TouchableOpacity>
+                            )}
                             <Image source={{ uri: currentExercise.image }} style={styles.modalImage} />
                             {timerStarted ? (
                                 <TouchableOpacity onPress={handleDonePress} disabled={exerciseTimer > 0} style={styles.doneButton}>
@@ -697,6 +708,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     startButtonText: {
+        color: 'white',
+        fontSize: 16,
+    },
+    helpButton: {
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 20,
+    },
+    helpButtonText: {
         color: 'white',
         fontSize: 16,
     },
