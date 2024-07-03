@@ -8,6 +8,7 @@ export default function RootLayout() {
             <Stack.Screen name="daily" options={{ headerShown: false }} />
             <Stack.Screen name="custom" options={{ headerShown: false }} />
             <Stack.Screen name="shop" options={{ headerShown: false }} />
+            <Stack.Screen name="statistics" options={{ headerShown: false }} />
         </Stack>
     );
 }

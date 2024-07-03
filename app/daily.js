@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Global variable to track custom mode
 let isCustomMode = false;
 let totalCalories = 0;
+let totalDamageDone = 0;
 let currentPlayerLevel = 0;
 
 const Daily = ({navigation}) => {
@@ -395,6 +396,8 @@ const Daily = ({navigation}) => {
         const criticalHit = Math.random() < criticalChance;
         const totalDamage = baseDamage + additionalDamage + (criticalHit ? baseDamage : 0);
 
+        totalDamageDone = totalDamageDone + totalDamage;
+
         console.log('Critical hit:', criticalHit);
         console.log('Total damage:', totalDamage);
 
@@ -430,16 +433,37 @@ const Daily = ({navigation}) => {
             await buttonSelectSound.current.replayAsync();
             await Haptics.selectionAsync();
             let updatedGold;
+            let reward;
 
             if (!isCustomMode) {
-                updatedGold = gold + enemy.reward;
+                reward = enemy.reward;
             } else {
-                updatedGold = gold + Math.ceil(enemy.reward / 3);
+                reward = Math.ceil(enemy.reward / 3);
             }
+
+            updatedGold = gold + reward;
             setGold(updatedGold);
 
             await AsyncStorage.setItem('gold', updatedGold.toString());
             console.log('Gold saved to storage:', updatedGold);
+
+            //TOTAL GOLD
+            const storedTotalGold = await AsyncStorage.getItem('totalGold');
+            const currentGold = storedTotalGold ? parseInt(storedTotalGold) : 0;
+            const updatedTotalGold = currentGold + reward;
+            await AsyncStorage.setItem('totalGold', updatedTotalGold.toString());
+
+            //TOTAL CALORIES
+            const storedTotalCalories = await AsyncStorage.getItem('totalCalories');
+            const currentCalories = storedTotalCalories ? parseInt(storedTotalCalories) : 0;
+            const updatedTotalCalories = currentCalories + totalCalories;
+            await AsyncStorage.setItem('totalCalories', updatedTotalCalories.toString());
+
+            //TOTAL DAMAGE
+            const storedTotalDamage = await AsyncStorage.getItem('totalDamage');
+            const currentDamage = storedTotalDamage ? parseInt(storedTotalDamage) : 0;
+            const updatedTotalDamage = currentDamage + totalDamageDone;
+            await AsyncStorage.setItem('totalDamage', updatedTotalDamage.toString());
 
             swap.navigate(screenName);
         } catch (error) {

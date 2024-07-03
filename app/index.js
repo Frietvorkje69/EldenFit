@@ -1,3 +1,4 @@
+// Index.js
 import React, { useEffect, useRef, useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Animated, Easing } from "react-native";
 import { Audio } from "expo-av";
@@ -205,6 +206,10 @@ export default function Index() {
         }
     };
 
+    const handleStreakPress = () => {
+        navigation.navigate("statistics");
+    };
+
     const currentStreak = dailyStreak.length;
     const rewardText = currentStreak >= 6 ? "Gold is now 2x!!" : currentStreak >= 3 ? "Gold is now 1.5x!" : "";
 
@@ -235,7 +240,7 @@ export default function Index() {
                     <Text style={styles.buttonText}>Custom</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.streakInfoContainer}>
+            <TouchableOpacity style={styles.streakInfoContainer} onPress={handleStreakPress}>
                 <Text style={styles.streakText}>Week 1 Streak: {currentStreak} day(s)</Text>
                 <Text style={styles.rewardText}>{rewardText}</Text>
                 <View style={styles.streakContainer}>
@@ -246,10 +251,14 @@ export default function Index() {
                                 styles.streakCircle,
                                 dailyStreak.length > index && styles.filledStreakCircle,
                             ]}
-                        />
+                        >
+                            {(index === 2 || index === 5) && (
+                                <Ionicons name="diamond-outline" size={20} color="white" />
+                            )}
+                        </View>
                     ))}
                 </View>
-            </View>
+            </TouchableOpacity>
             <View style={styles.footerContainer}>
                 <View style={styles.goldContainer}>
                     <Text style={styles.goldText}>Gold: {gold}</Text>
@@ -324,6 +333,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         backgroundColor: "#333",
         margin: 5,
+        justifyContent: "center",
+        alignItems: "center",
     },
     filledStreakCircle: {
         backgroundColor: "#51a3a6",
